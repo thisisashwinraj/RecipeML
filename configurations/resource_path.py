@@ -37,9 +37,9 @@ class ResourceRegistry:  # These paths are used when running your web app locall
     processed_recipenlg_dataset_path = "data/processed/recipe_nlg_processed_data.csv"
     raw_recipebowl_dataset_dir = "data/raw/"
 
-    knn_tfidf_vectorizer = 'embeddings/tfidf_vectorizer_recipe_nlg.pkl'
-    knn_tfidf_matrix = 'embeddings/tfidf_matrix_recipe_nlg.pkl'
-    feature_space_matching_model = '/content/drive/MyDrive/RecipeML/neural_engine_recipe_nlg.pkl'
+    knn_tfidf_vectorizer = 'feature_scape/embeddings/tfidf_vectorizer_recipe_nlg.pkl'
+    knn_tfidf_matrix = 'feature_scape/embeddings/tfidf_matrix_recipe_nlg.pkl'
+    feature_space_matching_model = 'feature_scape/model/feature_space_matching_model.pkl'
 
     generated_images_directory_path = "exports/generated_img/"
     placeholder_image_dir_path = "assets/images/placeholder/"
