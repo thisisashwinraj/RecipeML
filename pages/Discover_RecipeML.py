@@ -295,6 +295,10 @@ def display_discover_recipeml_page():
                             "&nbsp; Username not found. Try again!", icon="⚠️"
                         )
 
+                        login_alert = st.sidebar.write(err)
+                        time.sleep(10)
+                        login_alert.empty()
+
                         time.sleep(2)
                         authentication_failed_alert.empty()
 
@@ -364,9 +368,9 @@ def display_discover_recipeml_page():
         firebase_admin.initialize_app(firebase_credentials)
 
     except Exception as err:
-        alert_firrebase_init_failed = st.sidebar.warning("Unable to initialize firebase backend")
+        alert_firebase_init_failed = st.sidebar.warning("Unable to initialize firebase backend")
         time.sleep(2)
-        alert_firrebase_init_failed.empty()
+        alert_firebase_init_failed.empty()
 
     auth_token = AuthTokens()
 
