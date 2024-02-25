@@ -35,7 +35,6 @@ import re
 import requests
 import time
 import streamlit as st
-import streamlit_authenticator as stauth
 from PIL import Image
 
 import firebase_admin
