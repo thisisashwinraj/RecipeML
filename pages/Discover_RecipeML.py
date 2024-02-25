@@ -298,9 +298,9 @@ def display_discover_recipeml_page():
                         time.sleep(2)
                         authentication_failed_alert.empty()
 
-                        login_alert = st.sidebar.write(err)
-                        time.sleep(10)
-                        login_alert.empty()
+                        authentication_failed_alert = st.sidebar.warning(
+                            err, icon="⚠️"
+                        )
 
                         st.session_state.user_authentication_status = False
                         st.session_state.authenticated_user_email_id = None
