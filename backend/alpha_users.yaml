@@ -1,0 +1,21 @@
+cookie:
+  expiry_days: 3
+  key: recipeml
+  name: recipeml_cookie
+credentials:
+  usernames:
+    amritharaj:
+      email: amritharaj7227@gmail.com
+      name: Amritha Raj
+      password: $2b$12$49xlgv9FxqGSF18nP5dQauQGYFKkZifPoEQtBqdyO6vl0NiCYtwrK
+    gayathriramesh:
+      email: rameshgayathri9@gmail.com
+      name: Gayathri Ramesh
+      password: $2b$12$83Xlt7Y/FK6SyWR3FADrReu1lQvVv1YNh6C9XYCopFrR6udc50qkq
+    thisisashwinraj:
+      email: rajashwin812@gmail.com
+      name: Ashwin Raj
+      password: $2b$12$MPYeGlX5GDDuMSGeJu8SA.pEvtA0epgjKgO.1o/R8V7lvl9.j20tW
+preauthorized:
+  emails:
+  - rajashwin812@gmail.com
