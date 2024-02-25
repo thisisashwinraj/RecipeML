@@ -35,7 +35,6 @@ pickleshare==0.7.5
 tornado==6.3.2
 typing_extensions==4.6.3
 ipykernel==6.25.1
-streamlit==1.29.0
 tenacity==8.2.2
 kiwisolver==1.4.5
 networkx==3.1
