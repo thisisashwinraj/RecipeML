@@ -295,12 +295,12 @@ def display_discover_recipeml_page():
                             "&nbsp; Username not found. Try again!", icon="⚠️"
                         )
 
+                        time.sleep(2)
+                        authentication_failed_alert.empty()
+
                         login_alert = st.sidebar.write(err)
                         time.sleep(10)
                         login_alert.empty()
-
-                        time.sleep(2)
-                        authentication_failed_alert.empty()
 
                         st.session_state.user_authentication_status = False
                         st.session_state.authenticated_user_email_id = None
