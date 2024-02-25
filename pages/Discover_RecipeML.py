@@ -363,7 +363,10 @@ def display_discover_recipeml_page():
         )
         firebase_admin.initialize_app(firebase_credentials)
 
-    except Exception as err: pass
+    except Exception as err:
+        alert_firrebase_init_failed = st.sidebar.warning("Unable to initialize firebase backend")
+        time.sleep(2)
+        alert_firrebase_init_failed.empty()
 
     auth_token = AuthTokens()
 
