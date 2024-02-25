@@ -20,5 +20,5 @@ with attribute data-testid="stSidebar" and then set their width to 304px.
 */
 
 section[data-testid="stSidebar"] div.stButton button {
-    width: 302px;
+    width: 290px;
 }
