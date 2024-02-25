@@ -41,6 +41,7 @@ import firebase_admin
 from firebase_admin import auth, credentials
 
 from configurations.api_authtoken import AuthTokens
+from configurations.firebase_credentials import FirebaseCredentials
 
 
 def display_discover_recipeml_page():
@@ -352,6 +353,11 @@ def display_discover_recipeml_page():
 
 
     try:
+        firebase_credentials = FirebaseCredentials()
+        firebase_credentials.fetch_firebase_service_credentials(
+            "configurations/recipeml_firebase_secrets.json"
+        )
+    
         firebase_credentials = credentials.Certificate(
             "configurations/recipeml_firebase_secrets.json"
         )
