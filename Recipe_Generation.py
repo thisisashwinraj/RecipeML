@@ -1074,10 +1074,6 @@ if __name__ == "__main__":
                 st.markdown("<P><BR></P>", unsafe_allow_html=True)
 
                 reset_password_form()
-                st.markdown(
-                    "<P style='color: #111111;'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
-                    unsafe_allow_html=True,
-                )
 
         except Exception as error: pass
 
@@ -1096,11 +1092,6 @@ if __name__ == "__main__":
         # When logged in, display the message and the logout button, and the dark message
         try:
             if authentication_status is True:
-                st.markdown(
-                    "<P style='color: #111111;'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
-                    unsafe_allow_html=True,
-                )
-
                 authentication_success_alert = st.sidebar.success(
                     "Succesfully logged in to RecipeML",
                 )
