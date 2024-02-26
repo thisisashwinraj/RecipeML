@@ -364,7 +364,7 @@ def display_discover_recipeml_page():
         firebase_admin.initialize_app(firebase_credentials)
 
     except Exception as err:
-        alert_firebase_init_failed = st.sidebar.warning("Unable to initialize firebase backend")
+        alert_firebase_init_failed = st.sidebar.warning(err)
         time.sleep(2)
         alert_firebase_init_failed.empty()
 
@@ -570,8 +570,9 @@ def display_discover_recipeml_page():
             )
 
             st.sidebar.markdown(
-                "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True
+                "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True
             )
+            st.sidebar.write(" ")
 
             logout_button()
 
