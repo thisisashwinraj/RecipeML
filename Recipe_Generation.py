@@ -1071,8 +1071,13 @@ if __name__ == "__main__":
                 st.markdown("<BR>", unsafe_allow_html=True)
 
                 signup_form()
-                reset_password_form()
+                st.markdown("<BR>", unsafe_allow_html=True)
                 
+                reset_password_form()
+                st.markdown(
+                    "<P style='color: #111111;'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
+                    unsafe_allow_html=True,
+                )
 
         except Exception as error: pass
 
