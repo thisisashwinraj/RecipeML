@@ -524,7 +524,8 @@ if __name__ == "__main__":
             st.markdown(
                 f"<p align='justify'>{recipe_instructions}</p>", unsafe_allow_html=True
             )
-            
+
+            st.markdown("<BR><BR>", unsafe_allow_html=True)
             st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
             st.sidebar.audio(audio_path, format='audio/wav')
 
@@ -1072,7 +1073,7 @@ if __name__ == "__main__":
 
                 signup_form()
                 st.markdown("<BR>", unsafe_allow_html=True)
-                
+
                 reset_password_form()
                 st.markdown(
                     "<P style='color: #111111;'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
