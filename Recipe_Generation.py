@@ -41,6 +41,7 @@ Learn about RecipeML :ref:`RecipeML v1: User Interface and Functionality Overvie
 """
 import re
 import random
+import requests
 import streamlit as st
 import time
 import streamlit_antd_components as sac
@@ -52,10 +53,14 @@ from PIL import Image
 from gtts import gTTS
 from deep_translator import GoogleTranslator
 
+import firebase_admin
+from firebase_admin import auth, credentials
+
 from cognitive_flux.recipe_generation import ProceduralTextGeneration
 
 from configurations.api_authtoken import AuthTokens
 from configurations.resource_path import ResourceRegistry
+from configurations.firebase_credentials import FirebaseCredentials
 
 from deep_canvas.image_generation import GenerativeImageSynthesis
 
