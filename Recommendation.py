@@ -4,6 +4,7 @@ import base64
 import random
 import pickle
 import joblib
+import requests
 
 import nltk
 import numpy as np
@@ -11,6 +12,10 @@ import pandas as pd
 from PIL import Image
 from io import BytesIO
 import streamlit as st
+import streamlit_antd_components as sac
+
+import firebase_admin
+from firebase_admin import auth, credentials
 
 from deep_canvas.image_generation import GenerativeImageSynthesis
 from feature_scape.recommendation import FeatureSpaceMatching
@@ -20,6 +25,7 @@ from backend.generate_pdf import PDFUtils
 
 from configurations.api_authtoken import AuthTokens
 from configurations.resource_path import ResourceRegistry
+from configurations.firebase_credentials import FirebaseCredentials
 
 
 # Set the page title and favicon to be displayed on the streamlit web application
