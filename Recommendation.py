@@ -103,7 +103,7 @@ if __name__ == "__main__":
         selected_menu_item = sac.menu(
             [
                 sac.MenuItem(
-                    "Recommendation", icon="boxes",
+                    "Recommendations", icon="boxes",
                 ),
                 sac.MenuItem(
                     "Discover RecipeML",
@@ -116,7 +116,7 @@ if __name__ == "__main__":
             open_all=True,
         )
 
-    if selected_menu_item == "Recommendation":
+    if selected_menu_item == "Recommendations":
         resource_registry = ResourceRegistry(execution_platform="colab")
         feature_space_matching = FeatureSpaceMatching()
         genisys = GenerativeImageSynthesis(
