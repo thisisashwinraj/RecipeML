@@ -902,10 +902,7 @@ if __name__ == "__main__":
             )
             firebase_admin.initialize_app(firebase_credentials)
 
-        except Exception as err:
-            alert_firebase_init_failed = st.sidebar.warning(err)
-            time.sleep(2)
-            alert_firebase_init_failed.empty()
+        except Exception as err: pass
 
         auth_token = AuthTokens()
 
