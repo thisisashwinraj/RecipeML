@@ -1071,9 +1071,8 @@ if __name__ == "__main__":
                 st.markdown("<BR>", unsafe_allow_html=True)
 
                 signup_form()
-                st.markdown("<P><BR></P>", unsafe_allow_html=True)
-
                 reset_password_form()
+                
 
         except Exception as error: pass
 
