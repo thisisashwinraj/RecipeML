@@ -257,6 +257,7 @@ class PaLMStyleTransfer:
         """
         # Split the input instructions into a list using the period as separators
         input_instructions = payload.split(".")
+
         # Capitalize & strip leading/trailing spaces for each step in instruction
         recipe_instructions = [
             step.strip().capitalize() for step in input_instructions if step
@@ -272,7 +273,7 @@ class PaLMStyleTransfer:
         recipe_instructions = recipe_instructions + "."
         recipe_instructions = re.sub(r"\.\.", ".", recipe_instructions)
 
-        # If theres at least 10 sentences, organize them into different paragraph
+        # If there's at least 10 sentences, organize them into seprate paragraphs
         sentences = recipe_instructions.split(". ")
         if len(sentences) >= 10:
             num_sentences_per_paragraph = len(sentences) // 2
@@ -282,6 +283,9 @@ class PaLMStyleTransfer:
             second_paragraph = ". ".join(sentences[num_sentences_per_paragraph:])
 
             recipe_instructions = f"{first_paragraph}<br><br>{second_paragraph}"
+            try:
+                recipe_instructions = re.sub(r"\d+\.\s", "", recipe_instructions)
+            except Exception as error: pass
 
         return recipe_instructions  # Combine para & return processed instruction
 

@@ -21,7 +21,6 @@ Module for managing authentication tokens and text generation using OpenAI & PaL
 
 This module provides a convenient interface for handling auth tokens required for 
 text generation. It utilizes Streamlit for securely storing & retrieving API keys.
-AuthTokens encapsulates these keys, & can be extended to additional functionality.
 
 Classes and Functions:
     [1] AuthTokens (class)
@@ -52,9 +51,12 @@ class AuthTokens:
     NOTE: API Keys are maintained as streamlit secrets in .streamlit/secrets.toml
     """
 
-    openai_api_key = streamlit.secrets["openai_api_key"]  # OpenAI Auth Token/API
-    palm_api_key = streamlit.secrets["palm_api_key"]  # GooglePaLM Auth Token/API
-    firebase_api_key = streamlit.secrets["firebase_api_key"]  # Firebase Auth Key
+    openai_api_key = streamlit.secrets["openai_api_key"]
+    palm_api_key = streamlit.secrets["palm_api_key"]
+
+    firebase_api_key = streamlit.secrets["firebase_api_key"]
+    mongodb_connection_string = streamlit.secrets["mongodb_connection_string"]
+    azure_storage_account_connection_string = streamlit.secrets["azure_storage_account_connection_string"]
 
     def __init__(self):
         pass
