@@ -10,6 +10,8 @@ class AzureStorageAccount:
         self.container_name = container_name
 
     def store_image_in_blob_container(self, file_path, blob_name):
+        if filepath.lower() == "unavailable": return "unavailable"
+
         blob_service_client = BlobServiceClient.from_connection_string(
             self.connection_string
         )
