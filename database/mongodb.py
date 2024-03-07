@@ -1,6 +1,8 @@
+import requests
+from datetime import datetime, timezone, timedelta
+
 import pymongo
 from pymongo import MongoClient
-from datetime import datetime, timezone, timedelta
 
 from configurations.api_authtoken import AuthTokens
 
@@ -31,6 +33,8 @@ class MongoDB:
         primary_recipe_image,
         secondary_recipe_image,
     ):
+        ip_data = requests.get(f'http://ip-api.com/json/' + requests.get('https://api.ipify.org').text).json()
+
         data_to_insert = {
             "_id": username,
             "generated_recipes": {
@@ -40,6 +44,7 @@ class MongoDB:
                         "query": input_query,
                         "generation_language": input_language,
                         "generated_on": datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%m.%d.%Y (%H:%M:%S)"),
+                        "location": str(ip_data['city']) + ", " + str(ip_data['country'])
                     },
                     "response": {
                         "recipe_title": recipe_title,
