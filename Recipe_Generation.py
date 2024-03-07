@@ -40,6 +40,7 @@ APIs Used:
 Learn about RecipeML :ref:`RecipeML v1: User Interface and Functionality Overview`
 """
 import re
+import uuid
 import random
 import requests
 import time
