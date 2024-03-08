@@ -1185,6 +1185,9 @@ if __name__ == "__main__":
             
             except Exception as error:
                 st.write(username, recommendation_id, input_ingredients, recommended_recipes_indices, recommended_recipes_names, recommended_recipes_images)
+                st.write("---")
+                st.write(type(username), type(recommendation_id), type(input_ingredients), type(recommended_recipes_indices), type(recommended_recipes_names), type(recommended_recipes_images))
+                
                 st.exception(error)
             
         else:
