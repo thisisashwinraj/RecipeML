@@ -629,7 +629,7 @@ if __name__ == "__main__":
             st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
             st.sidebar.audio(audio_path, format="audio/wav")
 
-            try
+            try:
                 streamlit_analytics.stop_tracking(
                     firestore_key_file="configurations/recipeml_firebase_secrets.json",
                     firestore_collection_name="recipe_generation_telemetry",
