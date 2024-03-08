@@ -59,7 +59,7 @@ st.markdown(
         #MainMenu  {visibility: hidden;}
         footer {visibility: hidden;}
     </style>
-    """, 
+    """,
     unsafe_allow_html=True,
 )
 
@@ -100,7 +100,8 @@ try:
     # Read the CSS code from the css file & allow html parsing to apply the style
     apply_style_to_sidebar_button("assets/css/login_sidebar_button_style.css")
 
-except: pass  # Use the default style if file is'nt found or if exception happens
+except:
+    pass  # Use the default style if file is'nt found or if exception happens
 
 
 if __name__ == "__main__":
@@ -108,14 +109,15 @@ if __name__ == "__main__":
         selected_menu_item = sac.menu(
             [
                 sac.MenuItem(
-                    "Recommendations", icon="boxes",
+                    "Recommendations",
+                    icon="boxes",
                 ),
                 sac.MenuItem(
                     "Discover RecipeML",
                     icon="layers",
-                    tag=[sac.Tag('New', color='blue')]
+                    tag=[sac.Tag("New", color="blue")],
                 ),
-                sac.MenuItem(' ', disabled=True),
+                sac.MenuItem(" ", disabled=True),
                 sac.MenuItem(type="divider"),
             ],
             open_all=True,
@@ -166,7 +168,8 @@ if __name__ == "__main__":
         try:
             # Read CSS code from the css file & allow html parsing to apply the style
             apply_style_to_sidebar_button("assets/css/login_home_button_style.css")
-        except: pass  # Use default style if file is'nt found or if exception happens
+        except:
+            pass  # Use default style if file is'nt found or if exception happens
 
         # Create a multi-select widget in the sidebar for selecting input ingredients
         selected_ingredients = st.sidebar.multiselect(
@@ -177,7 +180,9 @@ if __name__ == "__main__":
         input_ingredients = [ingredient.lower() for ingredient in selected_ingredients]
 
         generate_recommendations_button = st.sidebar.button(
-            "Recommend Recipes", on_click=set_generate_recommendations_cache_to_true, use_container_width=True,
+            "Recommend Recipes",
+            on_click=set_generate_recommendations_cache_to_true,
+            use_container_width=True,
         )
 
         # Check if ingredients have been selected & recommendations button is clicked
@@ -185,7 +190,6 @@ if __name__ == "__main__":
             generate_recommendations_button
             or st.session_state.cache_generate_recommendations
         ) and len(input_ingredients) > 0:
-
             # Display the preloader, as the application performs time-intensive tasks
             gif_image = st.markdown(
                 f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
@@ -209,7 +213,13 @@ if __name__ == "__main__":
                 dataset4 = pd.read_csv(dataset_path_4)
                 dataset5 = pd.read_csv(dataset_path_5)
 
-                recipeml_processed_data = [dataset1, dataset2, dataset3, dataset4, dataset5]
+                recipeml_processed_data = [
+                    dataset1,
+                    dataset2,
+                    dataset3,
+                    dataset4,
+                    dataset5,
+                ]
 
                 # Load the processed data into variable for generating the embeddings
                 recipe_data = pd.concat(recipeml_processed_data, ignore_index=True)
@@ -253,7 +263,8 @@ if __name__ == "__main__":
                 "<H2>Here are some recipes you can try</H2>", unsafe_allow_html=True
             )
             st.markdown(
-                "<P align='justify'>These recommendations are generated using Recipe ML - one of our latest AI advancements. Our goal is to learn, improve, & innovate responsibly on AI together. Check out the data security policy for our users <a href='https://recipeml-recommendations.streamlit.app/Discover_RecipeML#no-hidden-ingredients-here-recipeml-v1-3-privacy-policy' style='color: #64ABD8;'>here</A></P>", unsafe_allow_html=True
+                "<P align='justify'>These recommendations are generated using Recipe ML - one of our latest AI advancements. Our goal is to learn, improve, & innovate responsibly on AI together. Check out the data security policy for our users <a href='https://recipeml-recommendations.streamlit.app/Discover_RecipeML#no-hidden-ingredients-here-recipeml-v1-3-privacy-policy' style='color: #64ABD8;'>here</A></P>",
+                unsafe_allow_html=True,
             )
 
             # Create three columns to display recommendations on the web app's layout
@@ -287,15 +298,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_1.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_1.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -386,17 +416,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_0", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_0", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_0 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_0 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -438,15 +472,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_4.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_4.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -537,17 +590,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_3", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_3", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_3 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_3 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -588,15 +645,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_2.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_2.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -687,17 +763,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_1", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_1", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_1 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_1 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -739,15 +819,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_5.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_5.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -838,17 +937,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_4", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_4", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_4 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_4 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -889,15 +992,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_3.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_3.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -988,17 +1110,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_2", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_2", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_2 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_2 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -1040,15 +1166,34 @@ if __name__ == "__main__":
                 else:
                     # Display a placeholder image if the image could not be generated
                     generated_image_path = (
-                        resource_registry.placeholder_image_dir_path + "placeholder_6.png"
+                        resource_registry.placeholder_image_dir_path
+                        + "placeholder_6.png"
                     )
                     recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
 
                 try:
-                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
-                except: recommended_recipes_images.append("unavailable")
+                    recommended_recipes_images.append(
+                        azure_storage_account.store_image_in_blob_container(
+                            generated_image_path,
+                            "".join(
+                                [
+                                    char.lower()
+                                    if char.isalnum()
+                                    else "_"
+                                    if char == " "
+                                    else ""
+                                    for char in recipe_name
+                                ]
+                            )
+                            + "_"
+                            + recommendation_id
+                            + ".png",
+                        )
+                    )
+                except:
+                    recommended_recipes_images.append("unavailable")
                 recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
@@ -1139,17 +1284,21 @@ if __name__ == "__main__":
 
                 else:
                     # For authenticated user, send a mail with recipe details and PDF
-                    if st.button("Send Recipe to Mail", key="button_5", use_container_width=True):
+                    if st.button(
+                        "Send Recipe to Mail", key="button_5", use_container_width=True
+                    ):
                         try:
                             st.toast("Hold tight! Your recipe is taking flight.")
 
                             # Generate the PDF file with the necessary recipe details
-                            download_location_5 = pdf_utils.generate_recommendations_pdf(
-                                recipe_name,
-                                recipe_type,
-                                recipe_url,
-                                recipe_ingredients,
-                                recipe_instructions,
+                            download_location_5 = (
+                                pdf_utils.generate_recommendations_pdf(
+                                    recipe_name,
+                                    recipe_type,
+                                    recipe_url,
+                                    recipe_ingredients,
+                                    recipe_instructions,
+                                )
                             )
                             # Send the mail with attachment to the registered mail id
                             mail_utils.send_recipe_info_to_mail(
@@ -1176,20 +1325,35 @@ if __name__ == "__main__":
 
             try:
                 mongo = MongoDB()
-                
+
                 if st.session_state.authenticated_user_username is not None:
                     username = st.session_state.authenticated_user_username
-                else: username = "guest_user"
+                else:
+                    username = "guest_user"
 
-                mongo.store_recommended_recipes(username, recommendation_id, input_ingredients, [int(index) for index in recommended_recipes_indices], recommended_recipes_names, recommended_recipes_images)
-            
+                mongo.store_recommended_recipes(
+                    username,
+                    recommendation_id,
+                    input_ingredients,
+                    [int(index) for index in recommended_recipes_indices],
+                    recommended_recipes_names,
+                    recommended_recipes_images,
+                )
+
             except Exception as error:
-                st.write(username, recommendation_id, input_ingredients, recommended_recipes_indices, recommended_recipes_names, recommended_recipes_images)
-                #st.write("---")
-                #st.write(type(username), type(recommendation_id), type(input_ingredients), type(recommended_recipes_indices), type(recommended_recipes_names), type(recommended_recipes_images))
-                
+                st.write(
+                    username,
+                    recommendation_id,
+                    input_ingredients,
+                    recommended_recipes_indices,
+                    recommended_recipes_names,
+                    recommended_recipes_images,
+                )
+                # st.write("---")
+                # st.write(type(username), type(recommendation_id), type(input_ingredients), type(recommended_recipes_indices), type(recommended_recipes_names), type(recommended_recipes_images))
+
                 st.exception(error)
-            
+
         else:
             try:
                 # Load & display animated GIF for visual appeal, when not inferencing
@@ -1205,7 +1369,8 @@ if __name__ == "__main__":
                     f'<br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div>',
                     unsafe_allow_html=True,
                 )
-            except: pass
+            except:
+                pass
 
             # Display a welcoming message to user with a randomly chosen recipe emoji
             cuisines_emojis = ["🍜", "🍩", "🍚", "🍝", "🍦", "🍣"]
@@ -1245,14 +1410,14 @@ if __name__ == "__main__":
         if "authenticated_user_username" not in st.session_state:
             st.session_state.authenticated_user_username = None
 
-
         def _valid_name(fullname):
             # Validate the basic structure, and logical name based character restrictions
             if not re.match(r"^[A-Z][a-z]+( [A-Z][a-z]+)*$", fullname):
                 return False
 
-            return True  # Name is considered to be valid, only if all conditions are met
-
+            return (
+                True  # Name is considered to be valid, only if all conditions are met
+            )
 
         def _valid_username(username):
             # Check for the minimum and maximum length of the password (i.e 4 characters)
@@ -1272,8 +1437,10 @@ if __name__ == "__main__":
             if not username[0].isalpha():
                 return False, "START_WITH_LETTERS"
 
-            return True, "USERNAME_VALID"  # Username is valid, if all conditions are met
-
+            return (
+                True,
+                "USERNAME_VALID",
+            )  # Username is valid, if all conditions are met
 
         def _valid_email_address(email):
             # Define the regular expression for validating the e-mail address of the user
@@ -1281,7 +1448,6 @@ if __name__ == "__main__":
 
             # Returns a boolean value indicating whether the mail address is valid or not
             return re.match(email_regex, email) is not None
-
 
         def signup_form():
             if st.session_state.user_authentication_status is None:
@@ -1349,7 +1515,9 @@ if __name__ == "__main__":
                                 elif validation_error_message is "INVALID_CHARACTERS":
                                     st.toast("Username contains invalid charecters!")
                                     time.sleep(1.5)
-                                    st.toast("Try again with valid chars (a-z, 0-9, ._)")
+                                    st.toast(
+                                        "Try again with valid chars (a-z, 0-9, ._)"
+                                    )
 
                                 elif validation_error_message is "START_WITH_LETTERS":
                                     st.toast("Start your username with a letter.")
@@ -1408,7 +1576,6 @@ if __name__ == "__main__":
                                 time.sleep(7)
                                 alert_failed_account_creation.empty()
 
-
         def login_form():
             if st.session_state.user_authentication_status is None:
                 with st.sidebar.form("login_existing_user_form"):
@@ -1450,15 +1617,23 @@ if __name__ == "__main__":
 
                                 user_display_name = data["displayName"]
                                 user_email_id = email
-                                user_username = firebase_admin.auth.get_user_by_email(email).uid
-
-                                user_phone_number = firebase_admin.auth.get_user_by_email(
+                                user_username = firebase_admin.auth.get_user_by_email(
                                     email
-                                ).phone_number
+                                ).uid
+
+                                user_phone_number = (
+                                    firebase_admin.auth.get_user_by_email(
+                                        email
+                                    ).phone_number
+                                )
 
                                 st.session_state.user_authentication_status = True
-                                st.session_state.authenticated_user_email_id = user_email_id
-                                st.session_state.authenticated_user_username = user_username
+                                st.session_state.authenticated_user_email_id = (
+                                    user_email_id
+                                )
+                                st.session_state.authenticated_user_username = (
+                                    user_username
+                                )
 
                                 st.rerun()
 
@@ -1472,11 +1647,13 @@ if __name__ == "__main__":
                                     )
                                 elif login_error_message == "EMAIL_NOT_FOUND":
                                     authentication_failed_alert = st.sidebar.warning(
-                                        "&nbsp; User with this mail doesn't exist.", icon="⚠️"
+                                        "&nbsp; User with this mail doesn't exist.",
+                                        icon="⚠️",
                                     )
                                 else:
                                     authentication_failed_alert = st.sidebar.warning(
-                                        "&nbsp; Unable to login. Try again later.", icon="⚠️"
+                                        "&nbsp; Unable to login. Try again later.",
+                                        icon="⚠️",
                                     )
 
                                 time.sleep(2)
@@ -1503,7 +1680,6 @@ if __name__ == "__main__":
                 st.session_state.authenticated_user_email_id,
             )
 
-
         def logout_button():
             if st.sidebar.button("Logout from RecipeML", use_container_width=True):
                 st.session_state.user_authentication_status = None
@@ -1511,19 +1687,21 @@ if __name__ == "__main__":
                 st.session_state.authenticated_user_username = None
                 st.rerun()
 
-
         def reset_password_form():
             with st.sidebar.expander("Forgot password"):
                 api_key = auth_token.firebase_api_key
                 base_url = "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key={api_key}"
 
                 email = st.text_input(
-                    "Enter your registered email id", placeholder="Registered email address"
+                    "Enter your registered email id",
+                    placeholder="Registered email address",
                 )
 
                 if st.button("Reset Password", use_container_width=True):
                     data = {"requestType": "PASSWORD_RESET", "email": email}
-                    response = requests.post(base_url.format(api_key=api_key), json=data)
+                    response = requests.post(
+                        base_url.format(api_key=api_key), json=data
+                    )
 
                     if response.status_code == 200:
                         alert_password_reset_mail_sent = st.success(
@@ -1549,19 +1727,19 @@ if __name__ == "__main__":
                         time.sleep(3)
                         alert_password_reset_mail_failed.empty()
 
-
         try:
             firebase_credentials = FirebaseCredentials()
             firebase_credentials.fetch_firebase_service_credentials(
                 "configurations/recipeml_firebase_secrets.json"
             )
-        
+
             firebase_credentials = credentials.Certificate(
                 "configurations/recipeml_firebase_secrets.json"
             )
             firebase_admin.initialize_app(firebase_credentials)
 
-        except Exception as err: pass
+        except Exception as err:
+            pass
 
         auth_token = AuthTokens()
 
@@ -1587,10 +1765,23 @@ if __name__ == "__main__":
             unsafe_allow_html=True,
         )
 
-        icon0, icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9 = st.columns(10)
+        (
+            icon0,
+            icon1,
+            icon2,
+            icon3,
+            icon4,
+            icon5,
+            icon6,
+            icon7,
+            icon8,
+            icon9,
+        ) = st.columns(10)
 
         with icon0:
-            with open("assets/icons/1.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/1.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1600,7 +1791,9 @@ if __name__ == "__main__":
                 )
 
         with icon1:
-            with open("assets/icons/2.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/2.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1610,7 +1803,9 @@ if __name__ == "__main__":
                 )
 
         with icon2:
-            with open("assets/icons/3.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/3.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1620,7 +1815,9 @@ if __name__ == "__main__":
                 )
 
         with icon3:
-            with open("assets/icons/4.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/4.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1630,7 +1827,9 @@ if __name__ == "__main__":
                 )
 
         with icon4:
-            with open("assets/icons/5.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/5.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1640,7 +1839,9 @@ if __name__ == "__main__":
                 )
 
         with icon5:
-            with open("assets/icons/6.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/6.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1650,7 +1851,9 @@ if __name__ == "__main__":
                 )
 
         with icon6:
-            with open("assets/icons/7.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/7.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1660,7 +1863,9 @@ if __name__ == "__main__":
                 )
 
         with icon7:
-            with open("assets/icons/8.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/8.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1670,7 +1875,9 @@ if __name__ == "__main__":
                 )
 
         with icon8:
-            with open("assets/icons/9.png", "rb") as f:  # Display the robot avatar image
+            with open(
+                "assets/icons/9.png", "rb"
+            ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1680,7 +1887,9 @@ if __name__ == "__main__":
                 )
 
         with icon9:
-            st.image("assets/icons/10.png")  # Display the roboavatar on the explore page
+            st.image(
+                "assets/icons/10.png"
+            )  # Display the roboavatar on the explore page
 
         st.markdown(
             "<H5>So what are you waiting for? Elevate your cooking game, discover new flavors, and redefine your kitchen escapades with RecipeML, now available across all countries</H5>",
@@ -1738,11 +1947,14 @@ if __name__ == "__main__":
                     unsafe_allow_html=True,
                 )
 
-        except Exception as error: pass
+        except Exception as error:
+            pass
 
         try:
-            if authentication_status is None: pass
-        except Exception as err: pass
+            if authentication_status is None:
+                pass
+        except Exception as err:
+            pass
 
         # Rerun the streamlit application if authentication fails for a user during login
         try:
@@ -1750,7 +1962,8 @@ if __name__ == "__main__":
                 st.session_state.user_authentication_status = None
                 st.rerun()
 
-        except Exception as err: pass
+        except Exception as err:
+            pass
 
         # When logged in, display the message and the logout button, and the dark message
         try:
@@ -1766,4 +1979,5 @@ if __name__ == "__main__":
 
                 logout_button()
 
-        except Exception as err: pass
+        except Exception as err:
+            pass

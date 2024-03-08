@@ -41,7 +41,9 @@ class MongoDB:
                         "generation_technique": input_methodology,
                         "query": input_query,
                         "generation_language": input_language,
-                        "generated_on": datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%m.%d.%Y (%H:%M:%S)"),
+                        "generated_on": datetime.now(
+                            timezone(timedelta(hours=5, minutes=30))
+                        ).strftime("%m.%d.%Y (%H:%M:%S)"),
                     },
                     "response": {
                         "recipe_title": recipe_title,
@@ -88,7 +90,9 @@ class MongoDB:
                 recommendation_id: {
                     "parameter": {
                         "ingredients": input_ingredients,
-                        "generated_on": datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%m.%d.%Y (%H:%M:%S)"),
+                        "generated_on": datetime.now(
+                            timezone(timedelta(hours=5, minutes=30))
+                        ).strftime("%m.%d.%Y (%H:%M:%S)"),
                     },
                     "response": {
                         "recipe_id": recipe_id_list,
