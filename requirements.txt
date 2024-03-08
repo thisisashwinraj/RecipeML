@@ -1,6 +1,7 @@
 ﻿pure-eval==0.2.2
 debugpy==1.6.7.post1
 azure-storage-blob==12.19.1
+streamlit-analytics==0.4.1
 tokenizers==0.13.3
 requests==2.31.0
 cachetools==5.3.1

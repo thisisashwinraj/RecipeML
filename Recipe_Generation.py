@@ -53,6 +53,7 @@ from gtts import gTTS
 from deep_translator import GoogleTranslator
 
 import streamlit as st
+import streamlit_analytics
 import streamlit_antd_components as sac
 
 import firebase_admin
@@ -151,6 +152,25 @@ if __name__ == "__main__":
         )
 
     if selected_menu_item == "Recipe Generation":
+        try:
+            firebase_credentials = FirebaseCredentials()
+            firebase_credentials.fetch_firebase_service_credentials(
+                "configurations/recipeml_firebase_secrets.json"
+            )
+
+            firebase_credentials = credentials.Certificate(
+                "configurations/recipeml_firebase_secrets.json"
+            )
+            firebase_admin.initialize_app(firebase_credentials)
+
+        except Exception as err:
+            pass
+
+        streamlit_analytics.start_tracking(
+            firestore_key_file="configurations/recipeml_firebase_secrets.json",
+            firestore_collection_name="recipe_generation_telemetry",
+        )
+
         if "user_authentication_status" not in st.session_state:
             st.session_state.user_authentication_status = None
 
@@ -609,6 +629,11 @@ if __name__ == "__main__":
             st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
             st.sidebar.audio(audio_path, format="audio/wav")
 
+            streamlit_analytics.stop_tracking(
+                firestore_key_file="configurations/recipeml_firebase_secrets.json",
+                firestore_collection_name="recipe_generation_telemetry",
+            )
+
             try:
                 mongo = MongoDB()
 
@@ -696,6 +721,11 @@ if __name__ == "__main__":
             st.info(usage_instruction)  # Display the usage information, to the users
 
     if selected_menu_item == "Discover RecipeML":
+        streamlit_analytics.start_tracking(
+            firestore_key_file="configurations/recipeml_firebase_secrets.json",
+            firestore_collection_name="recipe_generation_telemetry",
+        )
+
         if "user_authentication_status" not in st.session_state:
             st.session_state.user_authentication_status = None
 
@@ -1276,3 +1306,8 @@ if __name__ == "__main__":
 
         except Exception as err:
             pass
+
+        streamlit_analytics.stop_tracking(
+            firestore_key_file="configurations/recipeml_firebase_secrets.json",
+            firestore_collection_name="recipe_generation_telemetry",
+        )
