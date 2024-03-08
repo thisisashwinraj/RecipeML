@@ -634,7 +634,7 @@ if __name__ == "__main__":
                     firestore_key_file="configurations/recipeml_firebase_secrets.json",
                     firestore_collection_name="recipe_generation_telemetry",
                 )
-            except Exception as error: pass
+            except Exception as error: st.exception(error)
 
             try:
                 mongo = MongoDB()
@@ -1310,4 +1310,4 @@ if __name__ == "__main__":
                 firestore_key_file="configurations/recipeml_firebase_secrets.json",
                 firestore_collection_name="recipe_generation_telemetry",
             )
-        except Exception as error: pass
+        except Exception as error: st.exception(error)
