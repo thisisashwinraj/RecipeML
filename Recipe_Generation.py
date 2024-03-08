@@ -629,10 +629,12 @@ if __name__ == "__main__":
             st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
             st.sidebar.audio(audio_path, format="audio/wav")
 
-            streamlit_analytics.stop_tracking(
-                firestore_key_file="configurations/recipeml_firebase_secrets.json",
-                firestore_collection_name="recipe_generation_telemetry",
-            )
+            try
+                streamlit_analytics.stop_tracking(
+                    firestore_key_file="configurations/recipeml_firebase_secrets.json",
+                    firestore_collection_name="recipe_generation_telemetry",
+                )
+            except Exception as error: pass
 
             try:
                 mongo = MongoDB()
@@ -1272,14 +1274,12 @@ if __name__ == "__main__":
                     unsafe_allow_html=True,
                 )
 
-        except Exception as error:
-            pass
+        except Exception as error: pass
 
         try:
             if authentication_status is None:
                 pass
-        except Exception as err:
-            pass
+        except Exception as error: pass
 
         # Rerun the streamlit application if authentication fails for a user during login
         try:
@@ -1287,8 +1287,7 @@ if __name__ == "__main__":
                 st.session_state.user_authentication_status = None
                 st.rerun()
 
-        except Exception as err:
-            pass
+        except Exception as error: pass
 
         # When logged in, display the message and the logout button, and the dark message
         try:
@@ -1304,10 +1303,11 @@ if __name__ == "__main__":
 
                 logout_button()
 
-        except Exception as err:
-            pass
+        except Exception as error: pass
 
-        streamlit_analytics.stop_tracking(
-            firestore_key_file="configurations/recipeml_firebase_secrets.json",
-            firestore_collection_name="recipe_generation_telemetry",
-        )
+        try:
+            streamlit_analytics.stop_tracking(
+                firestore_key_file="configurations/recipeml_firebase_secrets.json",
+                firestore_collection_name="recipe_generation_telemetry",
+            )
+        except Exception as error: pass
