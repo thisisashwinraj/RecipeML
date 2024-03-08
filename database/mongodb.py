@@ -88,7 +88,7 @@ class MongoDB:
                 recommendation_id: {
                     "parameter": {
                         "ingredients": input_ingredients,
-                        "generated_on": datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%m.%d.%Y (%H:%M:%S)"),
+#                        "generated_on": datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%m.%d.%Y (%H:%M:%S)"),
                     },
                     "response": {
                         "recipe_id": recipe_id_list,
