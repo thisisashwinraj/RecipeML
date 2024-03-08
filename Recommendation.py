@@ -1,4 +1,5 @@
 import re
+import uuid
 import time
 import base64
 import random
@@ -131,7 +132,7 @@ if __name__ == "__main__":
             st.session_state.authenticated_user_username = None
 
         resource_registry = ResourceRegistry(execution_platform="colab")
-        
+
         feature_space_matching = FeatureSpaceMatching()
 
         genisys = GenerativeImageSynthesis(
