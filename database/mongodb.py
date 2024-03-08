@@ -92,8 +92,8 @@ class MongoDB:
                     },
                     "response": {
                         "recipe_id": recipe_id_list,
-                        "recommendations": recommendations_list,
-                        "images": recipe_images_list,
+                        "recommended_recipes": recommendations_list,
+                        "recipe_images": recipe_images_list,
                     },
                 }
             },

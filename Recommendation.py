@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 from io import BytesIO
+
 import streamlit as st
 import streamlit_antd_components as sac
 
@@ -26,6 +27,9 @@ from backend.generate_pdf import PDFUtils
 from configurations.api_authtoken import AuthTokens
 from configurations.resource_path import ResourceRegistry
 from configurations.firebase_credentials import FirebaseCredentials
+
+from database.mongodb import MongoDB
+from database.blob_storage import AzureStorageAccount
 
 
 # Set the page title and favicon to be displayed on the streamlit web application
@@ -117,8 +121,19 @@ if __name__ == "__main__":
         )
 
     if selected_menu_item == "Recommendations":
+        if "user_authentication_status" not in st.session_state:
+            st.session_state.user_authentication_status = None
+
+        if "authenticated_user_email_id" not in st.session_state:
+            st.session_state.authenticated_user_email_id = None
+
+        if "authenticated_user_username" not in st.session_state:
+            st.session_state.authenticated_user_username = None
+
         resource_registry = ResourceRegistry(execution_platform="colab")
+        
         feature_space_matching = FeatureSpaceMatching()
+
         genisys = GenerativeImageSynthesis(
             image_quality="low", enable_gpu_acceleration=False
         )
@@ -214,7 +229,6 @@ if __name__ == "__main__":
                     )
                 )
 
-                # Iterate over recommended recipes, and display the necessary details
                 st.markdown(
                     """
                     <style>
@@ -226,7 +240,13 @@ if __name__ == "__main__":
                     unsafe_allow_html=True,
                 )
 
+                azure_storage_account = AzureStorageAccount("generated-recipe-images")
+                recommended_recipes_names = []
+                recommended_recipes_images = []
+
                 gif_image.empty()  # Stop displaying preloader image on the front end
+
+            recommendation_id = str(uuid.uuid4())[:8]
 
             st.markdown(
                 "<H2>Here are some recipes you can try</H2>", unsafe_allow_html=True
@@ -265,12 +285,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_1.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -411,12 +436,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_4.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -556,12 +586,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_2.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -702,12 +737,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_5.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -847,12 +887,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_3.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -993,12 +1038,17 @@ if __name__ == "__main__":
                     recipe_image = Image.open(generated_image_path)
                 else:
                     # Display a placeholder image if the image could not be generated
-                    placeholder_image_path = (
+                    generated_image_path = (
                         resource_registry.placeholder_image_dir_path + "placeholder_6.png"
                     )
-                    recipe_image = Image.open(placeholder_image_path).resize((225, 225))
+                    recipe_image = Image.open(generated_image_path).resize((225, 225))
 
                 st.image(recipe_image)
+
+                try:
+                    recommended_recipes_images.append(azure_storage_account.store_image_in_blob_container(generated_image_path, "".join([char.lower() if char.isalnum() else "_" if char == " " else "" for char in recipe_name]) + "_" + recommendation_id + ".png"))
+                except: recommended_recipes_images.append("unavailable")
+                recommended_recipes_names.append(recipe_name)
 
                 # Shorten recipe name to max 26 characters and add ellipsis if longer
                 if len(recipe_name) <= 26:
@@ -1122,6 +1172,16 @@ if __name__ == "__main__":
                 f"<br><br>",
                 unsafe_allow_html=True,
             )
+
+            try:
+                mongo = MongoDB()
+                
+                if st.session_state.authenticated_user_username is not None:
+                    username = st.session_state.authenticated_user_username
+                else: username = "guest_user"
+
+                mongo.store_generated_recipes(username, recommendation_id, input_ingredients, recommended_recipes_indices, recommended_recipes_names, recommended_recipes_images)
+            except Exception as error: st.exception(error)
             
         else:
             try:
@@ -1174,6 +1234,9 @@ if __name__ == "__main__":
 
         if "authenticated_user_email_id" not in st.session_state:
             st.session_state.authenticated_user_email_id = None
+
+        if "authenticated_user_username" not in st.session_state:
+            st.session_state.authenticated_user_username = None
 
 
         def _valid_name(fullname):
@@ -1388,6 +1451,7 @@ if __name__ == "__main__":
 
                                 st.session_state.user_authentication_status = True
                                 st.session_state.authenticated_user_email_id = user_email_id
+                                st.session_state.authenticated_user_username = user_username
 
                                 st.rerun()
 
@@ -1413,6 +1477,7 @@ if __name__ == "__main__":
 
                                 st.session_state.user_authentication_status = False
                                 st.session_state.authenticated_user_email_id = None
+                                st.session_state.authenticated_user_username = None
 
                         except Exception as err:
                             authentication_failed_alert = st.sidebar.warning(
@@ -1424,6 +1489,7 @@ if __name__ == "__main__":
 
                             st.session_state.user_authentication_status = False
                             st.session_state.authenticated_user_email_id = None
+                            st.session_state.authenticated_user_username = None
 
             return (
                 st.session_state.user_authentication_status,
@@ -1435,6 +1501,7 @@ if __name__ == "__main__":
             if st.sidebar.button("Logout from RecipeML", use_container_width=True):
                 st.session_state.user_authentication_status = None
                 st.session_state.authenticated_user_email_id = None
+                st.session_state.authenticated_user_username = None
                 st.rerun()
 
 
