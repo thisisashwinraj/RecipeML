@@ -769,16 +769,20 @@ if __name__ == "__main__":
 
             with cola:
                 if st.session_state.user_display_name is not None:
+                    user_first_name = st.session_state.user_display_name.split()[0]
+
                     try:
                         st.markdown(
-                            f"<H1>Welcome {st.session_state.user_display_name} {random.choice(cuisines_emojis)}</H1>",
+                            f"<H1>Welcome {user_first_name} {random.choice(cuisines_emojis)}</H1>",
                             unsafe_allow_html=True,
                         )
+
                     except:
                         st.markdown(
                         f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
                         unsafe_allow_html=True,
                     )
+
                 else:
                     st.markdown(
                         f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
@@ -792,6 +796,7 @@ if __name__ == "__main__":
                     if st.session_state.themes["current_theme"] == "light"
                     else st.session_state.themes["dark"]["button_face"]
                 )
+                
                 st.button(
                     btn_face,
                     use_container_width=True,
