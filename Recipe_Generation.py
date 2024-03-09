@@ -211,6 +211,7 @@ if __name__ == "__main__":
                 "configurations/recipeml_firebase_secrets.json"
             )
             firebase_admin.initialize_app(firebase_credentials)
+            st.rerun()
 
         except Exception as err:
             pass
