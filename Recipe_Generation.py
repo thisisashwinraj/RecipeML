@@ -863,7 +863,7 @@ if __name__ == "__main__":
                         '<H3 id="anchor-create-user">Register Now to Create an Account</H3>',
                         unsafe_allow_html=True,
                     )
-                    subheading_font_color = {"dark": "#C2C2C2", "light": "#E2E2E2"}
+                    subheading_font_color = {"dark": "#E2E2E2", "light": "#C2C2C2"}
                     font_color = subheading_font_color[
                         st.session_state.themes["current_theme"]
                     ]
