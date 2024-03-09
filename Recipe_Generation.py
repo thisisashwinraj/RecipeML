@@ -113,6 +113,42 @@ st.markdown(
 )
 
 
+if "themes" not in st.session_state: 
+    st.session_state.themes = {"current_theme": "light",
+                    "refreshed": True,
+                    
+                    "light": {"theme.base": "dark",
+                              "theme.backgroundColor": "#111111",
+                              "theme.primaryColor": "#64ABD8",
+                              "theme.secondaryBackgroundColor": "#181818",
+                              "theme.textColor": "#FFFFFF",
+                              "button_face": "🌜"},
+
+                    "dark":  {"theme.base": "light",
+                              "theme.backgroundColor": "#fdfefe",
+                              "theme.primaryColor": "#64ABD8",
+                              "theme.secondaryBackgroundColor": "#f0f2f5",
+                              "theme.textColor": "#333333",
+                              "button_face": "☀️"},
+                    }
+  
+
+def change_streamlit_theme():
+    previous_theme = st.session_state.themes["current_theme"]
+    tdict = st.session_state.themes["light"] if st.session_state.themes["current_theme"] == "light" else st.session_state.themes["dark"]
+    for vkey, vval in tdict.items(): 
+        if vkey.startswith("theme"): st._config.set_option(vkey, vval)
+
+    st.session_state.themes["refreshed"] = False
+    if previous_theme == "dark": st.session_state.themes["current_theme"] = "light"
+    elif previous_theme == "light": st.session_state.themes["current_theme"] = "dark"
+
+
+if st.session_state.themes["refreshed"] == False:
+    st.session_state.themes["refreshed"] = True
+    st.rerun()
+
+
 if __name__ == "__main__":
     # [Recipe Generation](Page 1/2) - The frontend of the streamlit web application
 
@@ -178,7 +214,10 @@ if __name__ == "__main__":
         resource_registry = ResourceRegistry()
 
         # Fetch the preloader image from the assets directory, to be used in this app
-        loading_image_path = resource_registry.loading_assets_dir + "loading_img.gif"
+        if st.session_state.themes["current_theme"] == "dark":
+            loading_image_path = resource_registry.loading_assets_dir + "loading_img.gif"
+        else:
+            loading_image_path = resource_registry.loading_assets_dir + "loading_img_light.gif"
 
         with open(loading_image_path, "rb") as f:
             image_data = f.read()
@@ -257,7 +296,12 @@ if __name__ == "__main__":
                         st.sidebar.exception(error)
 
                     try:
-                        with open("assets/loading/exception_img.gif", "rb") as f:
+                        if st.session_state.themes["current_theme"] == "dark":
+                            exception_preloader = "assets/loading/exception_img.gif"
+                        else:
+                            exception_preloader = "assets/loading/exception_img_light.gif"
+
+                        with open(exception_preloader, "rb") as f:
                             image_data = f.read()
                             encoded_image = base64.b64encode(image_data).decode()
 
@@ -329,7 +373,12 @@ if __name__ == "__main__":
                         pass
 
                     try:
-                        with open("assets/loading/exception_img.gif", "rb") as f:
+                        if st.session_state.themes["current_theme"] == "dark":
+                            exception_preloader = "assets/loading/exception_img.gif"
+                        else:
+                            exception_preloader = "assets/loading/exception_img_light.gif"
+
+                        with open(exception_preloader, "rb") as f:
                             image_data = f.read()
                             encoded_image = base64.b64encode(image_data).decode()
 
@@ -357,7 +406,12 @@ if __name__ == "__main__":
         else:
             # Handle unknown exception, display warning and wait for clearing warning
             try:
-                with open("assets/loading/exception_img.gif", "rb") as f:
+                if st.session_state.themes["current_theme"] == "dark":
+                    exception_preloader = "assets/loading/exception_img.gif"
+                else:
+                    exception_preloader = "assets/loading/exception_img_light.gif"
+
+                with open(exception_preloader, "rb") as f:
                     image_data = f.read()
                     encoded_image = base64.b64encode(image_data).decode()
 
@@ -657,8 +711,12 @@ if __name__ == "__main__":
         else:
             try:
                 # Load & display animated GIF for visual appeal, when not inferencing
+                if st.session_state.themes["current_theme"] == "dark":
+                    loading_gif = "intro_dotwave_img.gif"
+                else: loading_gif = "intro_dotwave_img_dark.gif"
+
                 dotwave_image_path = (
-                    resource_registry.loading_assets_dir + "intro_dotwave_img.gif"
+                    resource_registry.loading_assets_dir + loading_gif
                 )
 
                 with open(dotwave_image_path, "rb") as f:
@@ -684,14 +742,27 @@ if __name__ == "__main__":
                 "🍣",
             ]
 
-            st.markdown(
-                f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
-                unsafe_allow_html=True,
-            )
+            cola, colb = st.columns([11.5,1])
+
+            with cola:
+                st.markdown(
+                    f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                    unsafe_allow_html=True,
+                )
+            
+            with colb:
+                st.markdown("<br>", unsafe_allow_html=True)
+                btn_face = st.session_state.themes["light"]["button_face"] if st.session_state.themes["current_theme"] == "light" else st.session_state.themes["dark"]["button_face"]
+                st.button(btn_face, use_container_width=True, type="secondary", on_click=change_streamlit_theme)
 
             # Provide a brief description of RecipeMLs recipe generation capabilities
+            subheading_font_color = {
+                "dark": "#C2C2C2",
+                "light": "#424242"
+            }
+
             st.markdown(
-                "<H4 style='color: #c2c2c2;'>Start by describing what you are craving, or what you have on hand!</H4>",
+                f"<H4 style='color: {subheading_font_color[st.session_state.themes["current_theme"]]}'>Start by describing what you are craving, or what you have on hand!</H4>",
                 unsafe_allow_html=True,
             )
             st.markdown(
