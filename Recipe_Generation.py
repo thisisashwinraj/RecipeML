@@ -760,9 +760,9 @@ if __name__ == "__main__":
                 "dark": "#C2C2C2",
                 "light": "#424242"
             }
-
+            font_color = subheading_font_color[st.session_state.themes["current_theme"]]
             st.markdown(
-                f"<H4 style='color: {subheading_font_color[st.session_state.themes["current_theme"]]}'>Start by describing what you are craving, or what you have on hand!</H4>",
+                f"<H4 style='color: {font_color}'>Start by describing what you are craving, or what you have on hand!</H4>",
                 unsafe_allow_html=True,
             )
             st.markdown(
