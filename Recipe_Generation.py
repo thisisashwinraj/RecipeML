@@ -223,6 +223,9 @@ if __name__ == "__main__":
         if "authenticated_user_username" not in st.session_state:
             st.session_state.authenticated_user_username = None
 
+        if "user_display_name" not in st.session_state:
+            st.session_state.user_display_name = None
+
         auth_token = AuthTokens()
         resource_registry = ResourceRegistry()
 
@@ -765,10 +768,22 @@ if __name__ == "__main__":
             cola, colb = st.columns([11.5, 1])
 
             with cola:
-                st.markdown(
-                    f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
-                    unsafe_allow_html=True,
-                )
+                if st.session_state.user_display_name is not None:
+                    try:
+                        st.markdown(
+                            f"<H1>Welcome {st.session_state.user_display_name} {random.choice(cuisines_emojis)}</H1>",
+                            unsafe_allow_html=True,
+                        )
+                    except:
+                        st.markdown(
+                        f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.markdown(
+                        f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                        unsafe_allow_html=True,
+                    )
 
             with colb:
                 st.markdown("<br>", unsafe_allow_html=True)
@@ -816,6 +831,9 @@ if __name__ == "__main__":
 
         if "authenticated_user_username" not in st.session_state:
             st.session_state.authenticated_user_username = None
+
+        if "user_display_name" not in st.session_state:
+            st.session_state.user_display_name = None
 
         def _valid_name(fullname):
             # Validate the basic structure, and logical name based character restrictions
@@ -1045,6 +1063,7 @@ if __name__ == "__main__":
                                 st.session_state.authenticated_user_username = (
                                     user_username
                                 )
+                                st.session_state.user_display_name = user_display_name
 
                                 st.rerun()
 
@@ -1073,6 +1092,7 @@ if __name__ == "__main__":
                                 st.session_state.user_authentication_status = False
                                 st.session_state.authenticated_user_email_id = None
                                 st.session_state.authenticated_user_username = None
+                                st.session_state.user_display_name = None
 
                         except Exception as err:
                             authentication_failed_alert = st.sidebar.warning(
@@ -1085,6 +1105,7 @@ if __name__ == "__main__":
                             st.session_state.user_authentication_status = False
                             st.session_state.authenticated_user_email_id = None
                             st.session_state.authenticated_user_username = None
+                            st.session_state.user_display_name = None
 
             return (
                 st.session_state.user_authentication_status,
@@ -1096,6 +1117,7 @@ if __name__ == "__main__":
                 st.session_state.user_authentication_status = None
                 st.session_state.authenticated_user_email_id = None
                 st.session_state.authenticated_user_username = None
+                st.session_state.user_display_name = None
                 st.rerun()
 
         def reset_password_form():
@@ -1394,13 +1416,15 @@ if __name__ == "__main__":
 
                 reset_password_form()
 
-                subheading_font_color = {"dark": "#C2C2C2", "light": "#E2E2E2"}
-                font_color = st.session_state.themes["theme.backgroundColor"]
-
-                st.markdown(
-                    f"<P style='color: {font_color};'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
-                    unsafe_allow_html=True,
-                )
+                try:
+                    subheading_font_color = {"dark": "#C2C2C2", "light": "#E2E2E2"}
+                    font_color = st.session_state.themes["theme.backgroundColor"]
+                
+                    st.markdown(
+                        f"<P style='color: {font_color};'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
+                        unsafe_allow_html=True,
+                    )
+                except Exception as error: pass
 
         except Exception as error:
             pass
