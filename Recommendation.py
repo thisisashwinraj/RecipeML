@@ -83,6 +83,50 @@ if "cache_generate_recommendations" not in st.session_state:
     st.session_state.cache_generate_recommendations = False
 
 
+if "themes" not in st.session_state:
+    st.session_state.themes = {
+        "current_theme": "dark",
+        "refreshed": True,
+        "light": {
+            "theme.base": "dark",
+            "theme.backgroundColor": "#111111",
+            "theme.primaryColor": "#64ABD8",
+            "theme.secondaryBackgroundColor": "#181818",
+            "theme.textColor": "#FFFFFF",
+            "button_face": "🌜",
+        },
+        "dark": {
+            "theme.base": "light",
+            "theme.backgroundColor": "#fdfefe",
+            "theme.primaryColor": "#64ABD8",
+            "theme.secondaryBackgroundColor": "#f0f2f5",
+            "theme.textColor": "#333333",
+            "button_face": "☀️",
+        },
+    }
+
+
+def change_streamlit_theme():
+    previous_theme = st.session_state.themes["current_theme"]
+    tdict = (
+        st.session_state.themes["light"]
+        if st.session_state.themes["current_theme"] == "light"
+        else st.session_state.themes["dark"]
+    )
+
+    for vkey, vval in tdict.items():
+        if vkey.startswith("theme"):
+            st._config.set_option(vkey, vval)
+
+    st.session_state.themes["refreshed"] = False
+
+    if previous_theme == "dark":
+        st.session_state.themes["current_theme"] = "light"
+
+    elif previous_theme == "light":
+        st.session_state.themes["current_theme"] = "dark"
+
+
 def set_generate_recommendations_cache_to_true():
     st.session_state.cache_generate_recommendations = True
 
@@ -96,12 +140,15 @@ def apply_style_to_sidebar_button(css_file_name):
         st.markdown(f"<style>{file.read()}</style>", unsafe_allow_html=True)
 
 
+if st.session_state.themes["refreshed"] == False:
+    st.session_state.themes["refreshed"] = True
+    st.rerun()
+
 try:
     # Read the CSS code from the css file & allow html parsing to apply the style
     apply_style_to_sidebar_button("assets/css/login_sidebar_button_style.css")
 
-except:
-    pass  # Use the default style if file is'nt found or if exception happens
+except: pass  # Use the default style if file is'nt found or if exception happens
 
 
 if __name__ == "__main__":
@@ -133,6 +180,9 @@ if __name__ == "__main__":
         if "authenticated_user_username" not in st.session_state:
             st.session_state.authenticated_user_username = None
 
+        if "user_display_name" not in st.session_state:
+            st.session_state.user_display_name = None
+
         resource_registry = ResourceRegistry(execution_platform="colab")
 
         feature_space_matching = FeatureSpaceMatching()
@@ -142,7 +192,14 @@ if __name__ == "__main__":
         )
 
         # Fetch the preloader image from the assets directory, to be used in this app
-        loading_image_path = resource_registry.loading_assets_dir + "loading_img.gif"
+        if st.session_state.themes["current_theme"] == "dark":
+            loading_image_path = (
+                resource_registry.loading_assets_dir + "loading_img.gif"
+            )
+        else:
+            loading_image_path = (
+                resource_registry.loading_assets_dir + "loading_img_light.gif"
+            )
 
         with open(loading_image_path, "rb") as f:
             image_data = f.read()
@@ -1358,7 +1415,7 @@ if __name__ == "__main__":
             try:
                 # Load & display animated GIF for visual appeal, when not inferencing
                 dotwave_image_path = (
-                    resource_registry.loading_assets_dir + "intro_dotwave_img.gif"
+                    resource_registry.loading_assets_dir + "dotwave_intro_img.gif"
                 )
 
                 with open(dotwave_image_path, "rb") as f:
@@ -1375,14 +1432,51 @@ if __name__ == "__main__":
             # Display a welcoming message to user with a randomly chosen recipe emoji
             cuisines_emojis = ["🍜", "🍩", "🍚", "🍝", "🍦", "🍣"]
 
-            st.markdown(
-                f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
-                unsafe_allow_html=True,
-            )
+            cola, colb = st.columns([11.5, 1])
+
+            with cola:
+                if st.session_state.user_display_name is not None:
+                    user_first_name = st.session_state.user_display_name.split()[0]
+
+                    try:
+                        st.markdown(
+                            f"<H1>Welcome {user_first_name} {random.choice(cuisines_emojis)}</H1>",
+                            unsafe_allow_html=True,
+                        )
+
+                    except:
+                        st.markdown(
+                        f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                        unsafe_allow_html=True,
+                    )
+
+                else:
+                    st.markdown(
+                        f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                        unsafe_allow_html=True,
+                    )
+
+            with colb:
+                st.markdown("<br>", unsafe_allow_html=True)
+                btn_face = (
+                    st.session_state.themes["light"]["button_face"]
+                    if st.session_state.themes["current_theme"] == "light"
+                    else st.session_state.themes["dark"]["button_face"]
+                )
+
+                st.button(
+                    btn_face,
+                    use_container_width=True,
+                    type="secondary",
+                    on_click=change_streamlit_theme,
+                )
 
             # Provide a brief description of RecipeMLs recipe generation capabilities
+            subheading_font_color = {"dark": "#C2C2C2", "light": "#424242"}
+            font_color = subheading_font_color[st.session_state.themes["current_theme"]]
+
             st.markdown(
-                "<H4 style='color: #c2c2c2;'>Start by describing few ingredients and unlock delicious possibilities</H4>",
+                f"<H4 style='color: {font_color};'>Start by describing few ingredients and unlock delicious possibilities</H4>",
                 unsafe_allow_html=True,
             )
             st.markdown(
@@ -1409,6 +1503,9 @@ if __name__ == "__main__":
 
         if "authenticated_user_username" not in st.session_state:
             st.session_state.authenticated_user_username = None
+
+        if "user_display_name" not in st.session_state:
+            st.session_state.user_display_name = None
 
         def _valid_name(fullname):
             # Validate the basic structure, and logical name based character restrictions
@@ -1634,6 +1731,7 @@ if __name__ == "__main__":
                                 st.session_state.authenticated_user_username = (
                                     user_username
                                 )
+                                st.session_state.user_display_name = user_display_name
 
                                 st.rerun()
 
@@ -1662,6 +1760,7 @@ if __name__ == "__main__":
                                 st.session_state.user_authentication_status = False
                                 st.session_state.authenticated_user_email_id = None
                                 st.session_state.authenticated_user_username = None
+                                st.session_state.user_display_name = None
 
                         except Exception as err:
                             authentication_failed_alert = st.sidebar.warning(
@@ -1674,6 +1773,7 @@ if __name__ == "__main__":
                             st.session_state.user_authentication_status = False
                             st.session_state.authenticated_user_email_id = None
                             st.session_state.authenticated_user_username = None
+                            st.session_state.user_display_name = None
 
             return (
                 st.session_state.user_authentication_status,
@@ -1685,6 +1785,7 @@ if __name__ == "__main__":
                 st.session_state.user_authentication_status = None
                 st.session_state.authenticated_user_email_id = None
                 st.session_state.authenticated_user_username = None
+                st.session_state.user_display_name = None
                 st.rerun()
 
         def reset_password_form():
@@ -1779,8 +1880,12 @@ if __name__ == "__main__":
         ) = st.columns(10)
 
         with icon0:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/1.png"
+            else:
+                icon_path = "assets/icons/light1.png"
             with open(
-                "assets/icons/1.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1791,8 +1896,12 @@ if __name__ == "__main__":
                 )
 
         with icon1:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/2.png"
+            else:
+                icon_path = "assets/icons/light2.png"
             with open(
-                "assets/icons/2.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1803,8 +1912,12 @@ if __name__ == "__main__":
                 )
 
         with icon2:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/3.png"
+            else:
+                icon_path = "assets/icons/light3.png"
             with open(
-                "assets/icons/3.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1815,8 +1928,12 @@ if __name__ == "__main__":
                 )
 
         with icon3:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/4.png"
+            else:
+                icon_path = "assets/icons/light4.png"
             with open(
-                "assets/icons/4.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1827,8 +1944,12 @@ if __name__ == "__main__":
                 )
 
         with icon4:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/5.png"
+            else:
+                icon_path = "assets/icons/light5.png"
             with open(
-                "assets/icons/5.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1839,8 +1960,12 @@ if __name__ == "__main__":
                 )
 
         with icon5:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/6.png"
+            else:
+                icon_path = "assets/icons/light6.png"
             with open(
-                "assets/icons/6.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1851,8 +1976,12 @@ if __name__ == "__main__":
                 )
 
         with icon6:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/7.png"
+            else:
+                icon_path = "assets/icons/light7.png"
             with open(
-                "assets/icons/7.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1863,8 +1992,12 @@ if __name__ == "__main__":
                 )
 
         with icon7:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/8.png"
+            else:
+                icon_path = "assets/icons/light8.png"
             with open(
-                "assets/icons/8.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1875,8 +2008,12 @@ if __name__ == "__main__":
                 )
 
         with icon8:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/9.png"
+            else:
+                icon_path = "assets/icons/light9.png"
             with open(
-                "assets/icons/9.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1887,8 +2024,12 @@ if __name__ == "__main__":
                 )
 
         with icon9:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/10.png"
+            else:
+                icon_path = "assets/icons/light10.png"
             st.image(
-                "assets/icons/10.png"
+                icon_path,
             )  # Display the roboavatar on the explore page
 
         st.markdown(
