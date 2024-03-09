@@ -735,12 +735,7 @@ if __name__ == "__main__":
         else:
             try:
                 # Load & display animated GIF for visual appeal, when not inferencing
-                if st.session_state.themes["current_theme"] == "dark":
-                    loading_gif = "intro_dotwave_img.gif"
-                else:
-                    loading_gif = "intro_dotwave_img_light.gif"
-
-                dotwave_image_path = resource_registry.loading_assets_dir + loading_gif
+                dotwave_image_path = resource_registry.loading_assets_dir + "intro_dotwave_img_transparent.gif"
 
                 with open(dotwave_image_path, "rb") as f:
                     image_data = f.read()
@@ -796,7 +791,7 @@ if __name__ == "__main__":
                     if st.session_state.themes["current_theme"] == "light"
                     else st.session_state.themes["dark"]["button_face"]
                 )
-                
+
                 st.button(
                     btn_face,
                     use_container_width=True,
