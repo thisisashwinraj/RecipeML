@@ -1190,8 +1190,12 @@ if __name__ == "__main__":
         ) = st.columns(10)
 
         with icon0:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/1.png"
+            else:
+                icon_path = "assets/icons/light1.png"
             with open(
-                "assets/icons/1.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1202,8 +1206,12 @@ if __name__ == "__main__":
                 )
 
         with icon1:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/2.png"
+            else:
+                icon_path = "assets/icons/light2.png"
             with open(
-                "assets/icons/2.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1214,8 +1222,12 @@ if __name__ == "__main__":
                 )
 
         with icon2:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/3.png"
+            else:
+                icon_path = "assets/icons/light3.png"
             with open(
-                "assets/icons/3.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1226,8 +1238,12 @@ if __name__ == "__main__":
                 )
 
         with icon3:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/4.png"
+            else:
+                icon_path = "assets/icons/light4.png"
             with open(
-                "assets/icons/4.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1238,8 +1254,12 @@ if __name__ == "__main__":
                 )
 
         with icon4:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/5.png"
+            else:
+                icon_path = "assets/icons/light5.png"
             with open(
-                "assets/icons/5.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1250,8 +1270,12 @@ if __name__ == "__main__":
                 )
 
         with icon5:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/6.png"
+            else:
+                icon_path = "assets/icons/light6.png"
             with open(
-                "assets/icons/6.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1262,8 +1286,12 @@ if __name__ == "__main__":
                 )
 
         with icon6:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/7.png"
+            else:
+                icon_path = "assets/icons/light7.png"
             with open(
-                "assets/icons/7.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1274,8 +1302,12 @@ if __name__ == "__main__":
                 )
 
         with icon7:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/8.png"
+            else:
+                icon_path = "assets/icons/light8.png"
             with open(
-                "assets/icons/8.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1286,8 +1318,12 @@ if __name__ == "__main__":
                 )
 
         with icon8:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/9.png"
+            else:
+                icon_path = "assets/icons/light9.png"
             with open(
-                "assets/icons/9.png", "rb"
+                icon_path, "rb"
             ) as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
@@ -1298,8 +1334,12 @@ if __name__ == "__main__":
                 )
 
         with icon9:
+            if st.session_state.themes["current_theme"] == "dark":
+                icon_path = "assets/icons/10.png"
+            else:
+                icon_path = "assets/icons/light10.png"
             st.image(
-                "assets/icons/10.png"
+                icon_path,
             )  # Display the roboavatar on the explore page
 
         st.markdown(
