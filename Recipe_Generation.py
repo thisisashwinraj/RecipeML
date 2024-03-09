@@ -115,7 +115,7 @@ st.markdown(
 
 if "themes" not in st.session_state:
     st.session_state.themes = {
-        "current_theme": "dark",
+        "current_theme": "light",
         "refreshed": True,
         "light": {
             "theme.base": "dark",
@@ -134,6 +134,7 @@ if "themes" not in st.session_state:
             "button_face": "☀️",
         },
     }
+    st.rerun()
 
 
 def change_streamlit_theme():
