@@ -115,7 +115,7 @@ st.markdown(
 
 if "themes" not in st.session_state:
     st.session_state.themes = {
-        "current_theme": "light",
+        "current_theme": "dark",
         "refreshed": True,
         "light": {
             "theme.base": "dark",
@@ -134,7 +134,6 @@ if "themes" not in st.session_state:
             "button_face": "☀️",
         },
     }
-    st.rerun()
 
 
 def change_streamlit_theme():
@@ -211,7 +210,6 @@ if __name__ == "__main__":
                 "configurations/recipeml_firebase_secrets.json"
             )
             firebase_admin.initialize_app(firebase_credentials)
-            st.rerun()
 
         except Exception as err:
             pass
@@ -742,7 +740,7 @@ if __name__ == "__main__":
                 else: loading_gif = "intro_dotwave_img_light.gif"
 
                 dotwave_image_path = (
-                    resource_registry.loading_assets_dir + loading_gif
+                    resource_registry.loading_assets_dir + "dotwave_intro_img.gif"
                 )
 
                 with open(dotwave_image_path, "rb") as f:
