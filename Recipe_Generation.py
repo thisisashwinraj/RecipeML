@@ -1424,15 +1424,10 @@ if __name__ == "__main__":
 
                 reset_password_form()
 
-                try:
-                    subheading_font_color = {"dark": "#111111", "light": "#FDFEFE"}
-                    font_color = st.session_state.themes["current_theme"]
-                
-                    st.markdown(
-                        f"<P style='color: {font_color};'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
-                        unsafe_allow_html=True,
-                    )
-                except Exception as error: pass
+                st.markdown(
+                    f"<BR>",
+                    unsafe_allow_html=True,
+                )
 
         except Exception as error:
             pass
