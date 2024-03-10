@@ -1425,7 +1425,7 @@ if __name__ == "__main__":
                 reset_password_form()
 
                 try:
-                    subheading_font_color = {"dark": "#C2C2C2", "light": "#E2E2E2"}
+                    subheading_font_color = {"dark": "#111111", "light": "#FDFEFE"}
                     font_color = st.session_state.themes["current_theme"]
                 
                     st.markdown(
