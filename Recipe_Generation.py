@@ -887,10 +887,12 @@ if __name__ == "__main__":
                         '<H3 id="anchor-create-user">Register Now to Create an Account</H3>',
                         unsafe_allow_html=True,
                     )
+
                     subheading_font_color = {"dark": "#E2E2E2", "light": "#111111"}
                     font_color = subheading_font_color[
                         st.session_state.themes["current_theme"]
                     ]
+
                     st.markdown(
                         f"<p align='justify' style='color: {font_color};'>Level up your recipe game! Get personalized recipe recommendations, create custom meal plans and more. Signup for your free RecipeML account today! Already have a account? LogIn now to get started</p>",
                         unsafe_allow_html=True,
@@ -1424,7 +1426,7 @@ if __name__ == "__main__":
 
                 try:
                     subheading_font_color = {"dark": "#C2C2C2", "light": "#E2E2E2"}
-                    font_color = st.session_state.themes["theme.backgroundColor"]
+                    font_color = st.session_state.themes["current_theme"]
                 
                     st.markdown(
                         f"<P style='color: {font_color};'>Interested in building RecipeML? Share your resume at thisisashwinraj@gmail.com</P>",
