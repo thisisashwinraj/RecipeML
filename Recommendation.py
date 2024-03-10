@@ -258,29 +258,35 @@ if __name__ == "__main__":
                 pdf_utils = PDFUtils()
                 mail_utils = MailUtils()
 
-                dataset_path_1 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_1.csv"
-                dataset_path_2 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_2.csv"
-                dataset_path_3 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_3.csv"
-                dataset_path_4 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_4.csv"
-                dataset_path_5 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_5.csv"
+                @st.cache_data
+                def _load_dataset_for_inferencing():
+                    dataset_path_1 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_1.csv"
+                    dataset_path_2 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_2.csv"
+                    dataset_path_3 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_3.csv"
+                    dataset_path_4 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_4.csv"
+                    dataset_path_5 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_5.csv"
 
-                dataset1 = pd.read_csv(dataset_path_1)
-                dataset2 = pd.read_csv(dataset_path_2)
-                dataset3 = pd.read_csv(dataset_path_3)
-                dataset4 = pd.read_csv(dataset_path_4)
-                dataset5 = pd.read_csv(dataset_path_5)
+                    dataset1 = pd.read_csv(dataset_path_1)
+                    dataset2 = pd.read_csv(dataset_path_2)
+                    dataset3 = pd.read_csv(dataset_path_3)
+                    dataset4 = pd.read_csv(dataset_path_4)
+                    dataset5 = pd.read_csv(dataset_path_5)
 
-                recipeml_processed_data = [
-                    dataset1,
-                    dataset2,
-                    dataset3,
-                    dataset4,
-                    dataset5,
-                ]
+                    recipeml_processed_data = [
+                        dataset1,
+                        dataset2,
+                        dataset3,
+                        dataset4,
+                        dataset5,
+                    ]
 
-                # Load the processed data into variable for generating the embeddings
-                recipe_data = pd.concat(recipeml_processed_data, ignore_index=True)
-                recipe_data.dropna(inplace=True)
+                    # Load the processed data into variable for generating the embeddings
+                    recipe_data = pd.concat(recipeml_processed_data, ignore_index=True)
+
+                    recipe_data.dropna(inplace=True)
+                    return recipe_data
+                
+                recipe_data = _load_dataset_for_inferencing()
 
                 # Load the TF/IDF vectorizer and trained feature space matching model
                 (
