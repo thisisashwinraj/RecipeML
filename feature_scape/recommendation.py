@@ -41,6 +41,9 @@ import datetime
 import pandas as pd
 
 import os
+import ast
+import json
+import time
 import joblib
 import random
 import requests
@@ -157,7 +160,7 @@ class FeatureSpaceMatching:
 
         return recommended_recipes_indices[:6]  # Return first six recommendation
 
-    def lookup_recipe_details_by_index(self, recipe_data, index):
+    def lookup_recipe_details_by_index(self, recipe_data, index, use_large_model=False):
         """
         Method to retrieve details of recipes by index, from the loaded DataFrame
 
@@ -177,11 +180,23 @@ class FeatureSpaceMatching:
             [tuple] Tuple containing recipe_name, recipe_type, recipe_ingredients,
             the recipe_instructions, the recipe_preperation_time & the recipe_url
         """
-        # Extract recipe details from a pandas DataFrame using the provided index
-        recipe_name = recipe_data["Recipe"].iloc[index]
+        if use_large_model:
+            # Extract recipe details from a pandas DataFrame using provided index
+            recipe_name = recipe_data["recipe_name"][index]
 
-        recipe_ingredients = recipe_data["Raw_Ingredients"].iloc[index]
-        recipe_instructions = recipe_data["Instructions"].iloc[index]
+            recipe_ingredients = recipe_data["recipe_ingredients"][index]
+            recipe_instructions = recipe_data["recipe_instructions"][index]
+
+            recipe_url = recipe_data["recipe_url"][index]  # Retrieve recipes URL
+
+        else:
+            # Extract recipe details from a pandas DataFrame using provided index
+            recipe_name = recipe_data["Recipe"].iloc[index]
+
+            recipe_ingredients = recipe_data["Raw_Ingredients"].iloc[index]
+            recipe_instructions = recipe_data["Instructions"].iloc[index]
+
+            recipe_url = recipe_data["URL"].iloc[index]  # Retrieve URL of recipe
 
         try:
             # Attempt to use PaLM for additional details: preparation time & type
@@ -206,10 +221,12 @@ class FeatureSpaceMatching:
 
         except:
             # Simple fallback mechanism in case of any PaLM API related exception
-            recipe_type = recipe_data["Source"].iloc[index]
+            recipe_type = (
+                recipe_data["recipe_source"][index]
+                if use_large_model
+                else recipe_data["Source"].iloc[index]
+            )
             recipe_preperation_time = random.randint(15, 90)
-
-        recipe_url = recipe_data["URL"].iloc[index]  # Retrieve URL of the recipes
 
         return (
             recipe_name,

@@ -58,5 +58,7 @@ class AuthTokens:
     mongodb_connection_string = streamlit.secrets["mongodb_connection_string"]
     azure_storage_account_connection_string = streamlit.secrets["azure_storage_account_connection_string"]
 
+    recipeml_flask_api_url = streamlit.secrets["recipeml_flask_api_url"]
+
     def __init__(self):
         pass

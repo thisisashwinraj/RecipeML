@@ -131,7 +131,7 @@ if "themes" not in st.session_state:
             "theme.primaryColor": "#64ABD8",
             "theme.secondaryBackgroundColor": "#f0f2f5",
             "theme.textColor": "#333333",
-            "button_face": "☀️",
+            "button_face": "🌞",
         },
     }
 

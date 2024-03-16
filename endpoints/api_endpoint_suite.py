@@ -32,13 +32,17 @@ NOTE: RecipeMLs flask API shall be running at the specified URL on the local hos
 Learn about RecipeML :ref:`RecipeML v1: RecipeML Flask API Functionality Overview`
 """
 import json
+import time
 import requests
 
+
+start_time = time.time()
+
 # Sample list of ingredients to e provided as input for the recipe recommendation
-input_ingredients = ["chicken", "rice", "vegetables"]
+input_ingredients = ["Bread"]
 
 # The URL of local RecipeML Flask API (add the /recommend endpoint for inference)
-recipeml_flask_api_local_url = "http://127.0.0.1:5000/recommend"
+recipeml_flask_api_local_url = "https://recipeml.azurewebsites.net/recommend"
 
 # Send a client POST request to the API running locally with the input ingredient
 response = requests.post(recipeml_flask_api_local_url, json=input_ingredients)
@@ -47,21 +51,17 @@ print("The response is: " + str(response))
 # Check response's status code to ensure a successful response else display error
 if response.status_code == 200:
     # Extract and print the first recommended recipe's details from JSON response
-    recipe_id = response.json()["recipe_id"][0]
+    recipe_id = response.json()["recipe_name"]
     print(recipe_id)
 
-    recipe_name = response.json()["recipe_name"][0]
-    print(recipe_name)
-
-    recipe_ingredients = response.json()["recipe_ingredients"][0]
-    print(recipe_ingredients)
-
-    recipe_instructions = response.json()["recipe_instructions"][0]
-    print(recipe_instructions)
-
-    recipe_source = response.json()["recipe_source"][0]
-    print(recipe_source)
+    #recipe_name = response.json()
+    #print(recipe_name)
 
 else:
     # Handle the client error internally and display the error message on console
     print("CLIENT ERROR:", response.json())
+
+end_time = time.time()
+execution_time = end_time - start_time
+
+print(f"Execution time: {execution_time:.2f} seconds")

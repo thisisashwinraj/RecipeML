@@ -1,6 +1,9 @@
 import re
+import ast
 import uuid
+import json
 import time
+
 import base64
 import random
 import pickle
@@ -101,7 +104,7 @@ if "themes" not in st.session_state:
             "theme.primaryColor": "#64ABD8",
             "theme.secondaryBackgroundColor": "#f0f2f5",
             "theme.textColor": "#333333",
-            "button_face": "☀️",
+            "button_face": "🌞",
         },
     }
 
@@ -148,7 +151,8 @@ try:
     # Read the CSS code from the css file & allow html parsing to apply the style
     apply_style_to_sidebar_button("assets/css/login_sidebar_button_style.css")
 
-except: pass  # Use the default style if file is'nt found or if exception happens
+except:
+    pass  # Use the default style if the file is'nt found or if exception happens
 
 
 if __name__ == "__main__":
@@ -183,15 +187,15 @@ if __name__ == "__main__":
         if "user_display_name" not in st.session_state:
             st.session_state.user_display_name = None
 
-        resource_registry = ResourceRegistry(execution_platform="colab")
-
+        auth_token = AuthTokens()
+        resource_registry = ResourceRegistry()
         feature_space_matching = FeatureSpaceMatching()
 
         genisys = GenerativeImageSynthesis(
             image_quality="low", enable_gpu_acceleration=False
         )
 
-        # Fetch the preloader image from the assets directory, to be used in this app
+        # Fetch preloader image from the assets directory, to be used in this app
         if st.session_state.themes["current_theme"] == "dark":
             loading_image_path = (
                 resource_registry.loading_assets_dir + "loading_img.gif"
@@ -205,7 +209,7 @@ if __name__ == "__main__":
             image_data = f.read()
             encoded_image = base64.b64encode(image_data).decode()
 
-        # Load the processed list of ingredients from the binary dump to a global var
+        # Load processed list of ingredients from the binary dump to a global var
         try:
             with open(
                 resource_registry.ingredients_list_path, "rb"
@@ -223,12 +227,12 @@ if __name__ == "__main__":
             ]
 
         try:
-            # Read CSS code from the css file & allow html parsing to apply the style
+            # Read CSS code from the file & allow html parsing to apply the style
             apply_style_to_sidebar_button("assets/css/login_home_button_style.css")
         except:
             pass  # Use default style if file is'nt found or if exception happens
 
-        # Create a multi-select widget in the sidebar for selecting input ingredients
+        # Create multiselect widget in the sidebar for selecting input ingredient
         selected_ingredients = st.sidebar.multiselect(
             "Select the ingredients",
             ingredients_list,
@@ -242,66 +246,88 @@ if __name__ == "__main__":
             use_container_width=True,
         )
 
-        # Check if ingredients have been selected & recommendations button is clicked
+        # Check if ingredients are selected, and recommendation button is clicked
         if (
             generate_recommendations_button
             or st.session_state.cache_generate_recommendations
         ) and len(input_ingredients) > 0:
-            # Display the preloader, as the application performs time-intensive tasks
+            # Display preloader, as the application performs time-intensive tasks
             gif_image = st.markdown(
                 f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
                 unsafe_allow_html=True,
             )
 
+            use_large_model = True
+
             with gif_image:
-                # Initialize the instances of the PDFUtility & the MailUtility module
+                # Initialize the instances for PDFUtility, and MailUtility module
                 pdf_utils = PDFUtils()
                 mail_utils = MailUtils()
 
-                @st.cache_data
-                def _load_dataset_for_inferencing():
-                    dataset_path_1 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_1.csv"
-                    dataset_path_2 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_2.csv"
-                    dataset_path_3 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_3.csv"
-                    dataset_path_4 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_4.csv"
-                    dataset_path_5 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_5.csv"
+                if use_large_model is True:
+                    try:
+                        recipeml_flask_api_url = auth_token.recipeml_flask_api_url
+                        response = requests.post(
+                            recipeml_flask_api_url, json=input_ingredients
+                        )
 
-                    dataset1 = pd.read_csv(dataset_path_1)
-                    dataset2 = pd.read_csv(dataset_path_2)
-                    dataset3 = pd.read_csv(dataset_path_3)
-                    dataset4 = pd.read_csv(dataset_path_4)
-                    dataset5 = pd.read_csv(dataset_path_5)
+                        if response.status_code == 200:
+                            # Extract and print the first recommended recipe's details from JSON response
+                            recommended_recipes_indices = response.json()["recipe_id"]
+                        else:
+                            use_large_model = False
 
-                    recipeml_processed_data = [
-                        dataset1,
-                        dataset2,
-                        dataset3,
-                        dataset4,
-                        dataset5,
-                    ]
+                    except:
+                        use_large_model = False
 
-                    # Load the processed data into variable for generating the embeddings
-                    recipe_data = pd.concat(recipeml_processed_data, ignore_index=True)
+                if use_large_model is False:
 
-                    recipe_data.dropna(inplace=True)
-                    return recipe_data
-                
-                recipe_data = _load_dataset_for_inferencing()
+                    @st.cache_data(show_spinner=False)
+                    def _load_dataset_for_inferencing():
+                        dataset_path_1 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_1.csv"
+                        dataset_path_2 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_2.csv"
+                        dataset_path_3 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_3.csv"
+                        dataset_path_4 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_4.csv"
+                        dataset_path_5 = "data/processed/recipe_nlg_batch_datasets/recipeml_processed_data_split_5.csv"
 
-                # Load the TF/IDF vectorizer and trained feature space matching model
-                (
-                    tfidf_vectorizer,
-                    model,
-                ) = feature_space_matching.initialize_feature_space_matching_algorithm(
-                    recipe_data
-                )
+                        dataset1 = pd.read_csv(dataset_path_1)
+                        dataset2 = pd.read_csv(dataset_path_2)
+                        dataset3 = pd.read_csv(dataset_path_3)
+                        dataset4 = pd.read_csv(dataset_path_4)
+                        dataset5 = pd.read_csv(dataset_path_5)
 
-                # Generate recipe recommendations, using feature space matching model
-                recommended_recipes_indices = (
-                    feature_space_matching.generate_recipe_recommendations(
-                        input_ingredients, model, tfidf_vectorizer
+                        recipeml_processed_data = [
+                            dataset1,
+                            dataset2,
+                            dataset3,
+                            dataset4,
+                            dataset5,
+                        ]
+
+                        # Load data into a variable for generating the embeddings
+                        recipe_data = pd.concat(
+                            recipeml_processed_data, ignore_index=True
+                        )
+
+                        recipe_data.dropna(inplace=True)
+                        return recipe_data
+
+                    recipe_data = _load_dataset_for_inferencing()
+
+                    # Load TF/IDF vectorizer and the feature space matching model
+                    (
+                        tfidf_vectorizer,
+                        model,
+                    ) = feature_space_matching.initialize_feature_space_matching_algorithm(
+                        recipe_data
                     )
-                )
+
+                    # Generate the recommendations - using feature space matching
+                    recommended_recipes_indices = (
+                        feature_space_matching.generate_recipe_recommendations(
+                            input_ingredients, model, tfidf_vectorizer
+                        )
+                    )
 
                 st.markdown(
                     """
@@ -342,16 +368,29 @@ if __name__ == "__main__":
 
             with container_1:
                 # Fetch details of the recommended recipe from the index location - 0
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[0]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 0
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[0]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -516,16 +555,29 @@ if __name__ == "__main__":
                 st.markdown("<BR>", unsafe_allow_html=True)
 
                 # Fetch details of the recommended recipe from the index location - 3
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[3]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 3
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[3]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -689,16 +741,29 @@ if __name__ == "__main__":
 
             with container_2:
                 # Fetch details of the recommended recipe from the index location - 1
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[1]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 1
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[1]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -863,16 +928,29 @@ if __name__ == "__main__":
                 st.markdown("<BR>", unsafe_allow_html=True)
 
                 # Fetch details of the recommended recipe from the index location - 4
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[4]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 4
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[4]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -1036,16 +1114,29 @@ if __name__ == "__main__":
 
             with container_3:
                 # Fetch details of the recommended recipe from the index location - 2
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[2]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 2
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[2]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -1210,16 +1301,29 @@ if __name__ == "__main__":
                 st.markdown("<BR>", unsafe_allow_html=True)
 
                 # Fetch details of the recommended recipe from the index location - 5
-                (
-                    recipe_name,
-                    recipe_type,
-                    recipe_ingredients,
-                    recipe_instructions,
-                    recipe_preperation_time,
-                    recipe_url,
-                ) = feature_space_matching.lookup_recipe_details_by_index(
-                    recipe_data, recommended_recipes_indices[5]
-                )
+                if use_large_model:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        response.json(), 5
+                    )
+
+                else:
+                    (
+                        recipe_name,
+                        recipe_type,
+                        recipe_ingredients,
+                        recipe_instructions,
+                        recipe_preperation_time,
+                        recipe_url,
+                    ) = feature_space_matching.lookup_recipe_details_by_index(
+                        recipe_data, recommended_recipes_indices[5]
+                    )
 
                 # Attempt to generate image of the recipe, using Generative AI models
                 generated_image_path = genisys.generate_image(recipe_name, 225, 225)
@@ -1404,18 +1508,7 @@ if __name__ == "__main__":
                 )
 
             except Exception as error:
-                st.write(
-                    username,
-                    recommendation_id,
-                    input_ingredients,
-                    recommended_recipes_indices,
-                    recommended_recipes_names,
-                    recommended_recipes_images,
-                )
-                # st.write("---")
-                # st.write(type(username), type(recommendation_id), type(input_ingredients), type(recommended_recipes_indices), type(recommended_recipes_names), type(recommended_recipes_images))
-
-                st.exception(error)
+                pass
 
         else:
             try:
@@ -1452,9 +1545,9 @@ if __name__ == "__main__":
 
                     except:
                         st.markdown(
-                        f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
-                        unsafe_allow_html=True,
-                    )
+                            f"<H1>Hello there {random.choice(cuisines_emojis)}</H1>",
+                            unsafe_allow_html=True,
+                        )
 
                 else:
                     st.markdown(
@@ -1896,9 +1989,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/1.png"
             else:
                 icon_path = "assets/icons/light1.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1912,9 +2003,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/2.png"
             else:
                 icon_path = "assets/icons/light2.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1928,9 +2017,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/3.png"
             else:
                 icon_path = "assets/icons/light3.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1944,9 +2031,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/4.png"
             else:
                 icon_path = "assets/icons/light4.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1960,9 +2045,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/5.png"
             else:
                 icon_path = "assets/icons/light5.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1976,9 +2059,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/6.png"
             else:
                 icon_path = "assets/icons/light6.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -1992,9 +2073,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/7.png"
             else:
                 icon_path = "assets/icons/light7.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -2008,9 +2087,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/8.png"
             else:
                 icon_path = "assets/icons/light8.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
@@ -2024,9 +2101,7 @@ if __name__ == "__main__":
                 icon_path = "assets/icons/9.png"
             else:
                 icon_path = "assets/icons/light9.png"
-            with open(
-                icon_path, "rb"
-            ) as f:  # Display the robot avatar image
+            with open(icon_path, "rb") as f:  # Display the robot avatar image
                 image_data = f.read()
                 encoded_image = base64.b64encode(image_data).decode()
 
