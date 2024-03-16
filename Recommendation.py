@@ -102,7 +102,7 @@ if "themes" not in st.session_state:
             "theme.base": "light",
             "theme.backgroundColor": "#fdfefe",
             "theme.primaryColor": "#64ABD8",
-            "theme.secondaryBackgroundColor": "#f0f2f5",
+            "theme.secondaryBackgroundColor": "#dee4e7",
             "theme.textColor": "#333333",
             "button_face": "🌞",
         },
