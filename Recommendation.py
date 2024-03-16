@@ -440,7 +440,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
@@ -627,7 +632,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
@@ -813,7 +823,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
@@ -1000,7 +1015,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
@@ -1186,7 +1206,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
@@ -1373,7 +1398,12 @@ if __name__ == "__main__":
                 st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
-                if recipe_preperation_time < 100:
+                if type(recipe_preperation_time) == list:
+                    preperation_time_in_minutes = recipe_preperation_time[0]
+                else:
+                    preperation_time_in_minutes = recipe_preperation_time
+
+                if preperation_time_in_minutes < 100:
                     if recipe_type == "Gathered" or recipe_type == "Recipes1M":
                         # Determine the type, based on the source of recipe's details
                         if "Gathered":
