@@ -377,7 +377,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 0
+                        response.json(), 0, True
                     )
 
                 else:
@@ -564,7 +564,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 3
+                        response.json(), 3, True
                     )
 
                 else:
@@ -750,7 +750,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 1
+                        response.json(), 1, True
                     )
 
                 else:
@@ -937,7 +937,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 4
+                        response.json(), 4, True
                     )
 
                 else:
@@ -1123,7 +1123,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 2
+                        response.json(), 2, True
                     )
 
                 else:
@@ -1310,7 +1310,7 @@ if __name__ == "__main__":
                         recipe_preperation_time,
                         recipe_url,
                     ) = feature_space_matching.lookup_recipe_details_by_index(
-                        response.json(), 5
+                        response.json(), 5, True
                     )
 
                 else:
