@@ -465,10 +465,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
@@ -657,10 +661,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
@@ -848,10 +856,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
@@ -1040,10 +1052,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
@@ -1231,10 +1247,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
@@ -1423,10 +1443,14 @@ if __name__ == "__main__":
                         )
                     else:
                         # Display the recipe type, & the approximate preperation time
+                        recipe_type = recipe_type + " Cuisine"
+                        if len(recipe_type) > 19:
+                            recipe_type = recipe_type[:15] + "..."
+                        
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type.title()
-                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + f" • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
