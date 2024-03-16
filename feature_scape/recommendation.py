@@ -216,8 +216,11 @@ class FeatureSpaceMatching:
             )
 
             # Fetch the recipe_preperation_time & the recipe_type from the result
-            recipe_preperation_time = recipe_preperation_time_and_serving_size[0]
-            recipe_type = recipe_preperation_time_and_serving_size[1]
+            preperation_time = recipe_preperation_time_and_serving_size[0]
+            recipe_calories = recipe_preperation_time_and_serving_size[1]
+
+            recipe_preperation_time = [preperation_time, recipe_calories]
+            recipe_type = recipe_preperation_time_and_serving_size[2]
 
         except:
             # Simple fallback mechanism in case of any PaLM API related exception

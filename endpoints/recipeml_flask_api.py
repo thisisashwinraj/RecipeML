@@ -53,6 +53,13 @@ from sklearn.neighbors import NearestNeighbors
 app = Flask(__name__)  # Initialize an elementary Flask web applications instance
 
 
+tfidf_vectorizer = joblib.load("tfidf_vectorizer_recipe_nlg.pkl")
+model = joblib.load("neural_engine_recipe_nlg.pkl")
+
+recipe_data = pd.read_csv("recipe_nlg_processed_data.csv")
+recipe_data.dropna(inplace=True)
+
+
 @app.route("/")
 def api_home():
     """
@@ -85,15 +92,14 @@ def recommend_recipe():
     Returns:
         None -> Response containing recommended recipes, converted to JSON format
     """
-    tfidf_vectorizer = joblib.load("tfidf_vectorizer_recipe_nlg.pkl")
-    model = joblib.load("neural_engine_recipe_nlg.pkl")
+    recipe_data.dropna(inplace=True)
 
     try:
         ingredients = request.get_json()  # Fetch ingredients from ~/http request
 
         # Ensure data is a list, else return error code 403, requesting list data
         if not isinstance(ingredients, list):
-            return jsonify({"error": "Data should be a list of ingredients"})
+            return jsonify({"DATATYPE ERROR": "Input should be a list of ingredients"})
 
         ingredients_text = " ".join(ingredients).lower()
 
@@ -106,10 +112,6 @@ def recommend_recipe():
 
         recipe_id_list = [int(recipe_id) for recipe_id in recommended_recipes_indices]
 
-        # Load the processed dataset, to infer the details pertaining to a recipe
-        recipe_data = pd.read_csv("recipe_nlg_processed_data.csv")
-        recipe_data.dropna(inplace=True)
-
         recipe_name_list = []
         recipe_ingredients_list = []
         recipe_instructions_list = []
@@ -119,8 +121,10 @@ def recommend_recipe():
         # Store the intrinsic details of the recommended recipes in seprate lists
         for i in recipe_id_list:
             recipe_name_list.append(recipe_data["Recipe"].iloc[i])
+
             recipe_ingredients_list.append(recipe_data["Raw_Ingredients"].iloc[i])
             recipe_instructions_list.append(recipe_data["Instructions"].iloc[i])
+
             recipe_url_list.append(recipe_data["URL"].iloc[i])
             recipe_source_list.append(recipe_data["Source"].iloc[i])
 

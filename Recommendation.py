@@ -463,8 +463,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )
@@ -650,8 +650,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )
@@ -836,8 +836,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )
@@ -1023,8 +1023,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )
@@ -1209,8 +1209,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )
@@ -1396,8 +1396,8 @@ if __name__ == "__main__":
                         st.markdown(
                             "<p style='font-size: 16px;'>"
                             + recipe_type
-                            + " Cuisine<BR>Takes around "
-                            + str(recipe_preperation_time)
+                            + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
+                            + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
                             unsafe_allow_html=True,
                         )

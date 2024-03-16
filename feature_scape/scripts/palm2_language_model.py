@@ -136,8 +136,8 @@ class PaLMPromptModule:
         """
         prompt = f"""
         You are an expert chef with extensive knowledge of preparing a wide variety of recipes.
-        Calculate the usual preperation time for preparing the recipe named {recipe_name} and also find the type of this cuisine (like continental, chinese, indian etc).
-        Return a python list of length 2 with the preperation time (in minutes), and the type of cuisine.
+        Calculate the usual preperation time for preparing the recipe named {recipe_name}, the accurate number of calories in it, and the type of this cuisine (like continental, chinese, indian etc).
+        Return a python list of length 3 with the preperation time (in minutes), calorie count (integer value), and the type of cuisine.
         Do not add headings. Keep the list minimalist.
         """
         return prompt
