@@ -437,7 +437,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:26] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -457,7 +457,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -467,7 +467,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -486,7 +486,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -496,7 +496,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -629,7 +629,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:26] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -649,7 +649,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -659,7 +659,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -678,7 +678,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -688,7 +688,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -820,7 +820,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:26] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -840,7 +840,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -850,7 +850,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -869,7 +869,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -879,7 +879,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1012,7 +1012,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:25] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -1032,7 +1032,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1042,7 +1042,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -1061,7 +1061,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1071,7 +1071,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1203,7 +1203,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:26] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -1223,7 +1223,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1233,7 +1233,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -1252,7 +1252,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1262,7 +1262,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1395,7 +1395,7 @@ if __name__ == "__main__":
                     recipe_name = recipe_name[:25] + "..."
 
                 # Display the name of the recommended recipe, as an HTML <H6> heading
-                st.markdown("<H6>" + recipe_name + "</H6>", unsafe_allow_html=True)
+                st.markdown("<H6>" + recipe_name.title() + "</H6>", unsafe_allow_html=True)
 
                 # Display recipe details including the source, URL & preparation time
                 if type(recipe_preperation_time) == list:
@@ -1415,7 +1415,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes around "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1425,7 +1425,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + f" Cuisine • {str(recipe_preperation_time[1])} Calories<BR>Takes around "
                             + str(recipe_preperation_time[0])
                             + " mins to prepare<BR>",
@@ -1444,7 +1444,7 @@ if __name__ == "__main__":
                             "<p style='font-size: 16px;'>Cuisine Source: <a href ='https://"
                             + recipe_url
                             + "' style='color: #64ABD8;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "</A><BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
@@ -1454,7 +1454,7 @@ if __name__ == "__main__":
                         # Display the recipe type, & the approximate preperation time
                         st.markdown(
                             "<p style='font-size: 16px;'>"
-                            + recipe_type
+                            + recipe_type.title()
                             + "Cuisine<BR>Takes over a "
                             + str(recipe_preperation_time)
                             + " mins to prepare<BR>",
