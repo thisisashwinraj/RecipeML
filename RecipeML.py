@@ -737,11 +737,11 @@ if __name__ == "__main__":
                 [
                     sac.MenuItem(
                         "Recipe Generation",
-                        icon="house",
+                        icon="stars",
                     ),
                     sac.MenuItem(
                         "Recommendations",
-                        icon="layers",
+                        icon="boxes",
                     ),
                     sac.MenuItem(" ", disabled=True),
                     sac.MenuItem(type="divider"),
