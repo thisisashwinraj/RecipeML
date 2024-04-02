@@ -412,7 +412,7 @@ if "themes" not in st.session_state:
             "theme.base": "light",
             "theme.backgroundColor": "#fdfefe",
             "theme.primaryColor": "#64ABD8",
-            "theme.secondaryBackgroundColor": "#dee4e7",
+            "theme.secondaryBackgroundColor": "#f0f2f5",
             "theme.textColor": "#333333",
             "button_face": "🌞",
         },
@@ -585,8 +585,10 @@ if __name__ == "__main__":
                 st.write(error)
 
             col1, col2 = st.columns([11.5, 1])
+
             with col1:
                 st.markdown("<H1>RecipeML v1.2</H1>", unsafe_allow_html=True)
+
             with col2:
                 st.markdown("<br>", unsafe_allow_html=True)
                 btn_face = (
@@ -612,9 +614,16 @@ if __name__ == "__main__":
             )
 
             inline_display_col1, inline_display_col2 = st.columns([2.5, 1])
+
             with inline_display_col1:
                 st.markdown(
                     "<B>Subscribe to receive our newsletter, directly into your inbox</B>",
+                    unsafe_allow_html=True,
+                )
+
+            with inline_display_col2:
+                st.markdown(
+                    "<B><A href='https://docs.google.com/document/d/1rbPR3oXLPjFTAhK8PShiY6DWtQPNfwL7wkAwSZg-1k8/edit?usp=sharing' class='custom-link'>Terms of Use →</A></B>",
                     unsafe_allow_html=True,
                 )
 
@@ -798,7 +807,7 @@ if __name__ == "__main__":
                 use_container_width=True,
             )
             
-            st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+            st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
             logout_button()
 
             # Check if ingredients are selected, and recommendation button is clicked
@@ -2350,7 +2359,7 @@ if __name__ == "__main__":
                     placeholder="Pick from over 10,000+ ingredients",
                 )
 
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
                 logout_button()
 
                 if input_selected_ingredients:
@@ -2442,7 +2451,7 @@ if __name__ == "__main__":
                     placeholder="Be playful, descriptive, or even a little poetic",
                 )
 
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
                 logout_button()
 
                 # Check if some recipe name is provided by the user, initialized on enter
