@@ -742,7 +742,6 @@ if __name__ == "__main__":
                     sac.MenuItem(
                         "Recommendations",
                         icon="layers",
-                        tag=[sac.Tag("New", color="blue")],
                     ),
                     sac.MenuItem(" ", disabled=True),
                     sac.MenuItem(type="divider"),
