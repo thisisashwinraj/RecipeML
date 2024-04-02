@@ -578,7 +578,7 @@ if __name__ == "__main__":
                     st.write(" ")
                     # Display base64 encoded image with rounded edge without expander
                     gif_image = st.markdown(
-                        f'<div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div>',
+                        f'<BR><BR><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div>',
                         unsafe_allow_html=True,
                     )
             except Exception as error:
@@ -589,10 +589,17 @@ if __name__ == "__main__":
                 st.markdown("<H1>RecipeML v1.2</H1>", unsafe_allow_html=True)
             with col2:
                 st.markdown("<br>", unsafe_allow_html=True)
+                btn_face = (
+                    st.session_state.themes["light"]["button_face"]
+                    if st.session_state.themes["current_theme"] == "light"
+                    else st.session_state.themes["dark"]["button_face"]
+                )
+
                 st.button(
-                    "H",
+                    btn_face,
                     use_container_width=True,
                     type="secondary",
+                    on_click=change_streamlit_theme,
                 )
 
             st.markdown(
@@ -647,8 +654,13 @@ if __name__ == "__main__":
 
             try:
                 if authentication_status is not True:
+                    st.write(" ")
+                    st.markdown(
+                        f"<BR>",
+                        unsafe_allow_html=True,
+                    )
+                    
                     signup_form()
-
                     reset_password_form()
 
                     st.markdown(
@@ -785,6 +797,9 @@ if __name__ == "__main__":
                 on_click=set_generate_recommendations_cache_to_true,
                 use_container_width=True,
             )
+            
+            st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+            logout_button()
 
             # Check if ingredients are selected, and recommendation button is clicked
             if (
@@ -792,9 +807,6 @@ if __name__ == "__main__":
                 or st.session_state.cache_generate_recommendations
             ) and len(input_ingredients) > 0:
                 st.write(" ")
-                
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
 
                 # Display preloader, as the application performs time-intensive tasks
                 gif_image = st.markdown(
@@ -2338,10 +2350,10 @@ if __name__ == "__main__":
                     placeholder="Pick from over 10,000+ ingredients",
                 )
 
-                if input_selected_ingredients:
-                    st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                    logout_button()
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                logout_button()
 
+                if input_selected_ingredients:
                     # Display the preloader, as the web app performs time intensive tasks
                     gif_image = st.markdown(
                         f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
@@ -2422,16 +2434,16 @@ if __name__ == "__main__":
                 else:
                     flag_display_result = False
 
-            # Check if the recipe generations selectbox is set to Generate by Recipe Name
+            # Check if the recipe generations selectbox is to generate recipe by name
             elif recipe_generation_type == "Generate by Name":
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
-
                 # Display sidebar with text input for the user to enter a recipe name
                 input_recipe_name = st.sidebar.text_input(
                     "Enter Recipe Name:",
                     placeholder="Be playful, descriptive, or even a little poetic",
                 )
+
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                logout_button()
 
                 # Check if some recipe name is provided by the user, initialized on enter
                 if input_recipe_name:
