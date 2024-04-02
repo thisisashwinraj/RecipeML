@@ -412,7 +412,7 @@ if "themes" not in st.session_state:
             "theme.base": "light",
             "theme.backgroundColor": "#fdfefe",
             "theme.primaryColor": "#64ABD8",
-            "theme.secondaryBackgroundColor": "#f0f2f5",
+            "theme.secondaryBackgroundColor": "#dee4e7",
             "theme.textColor": "#333333",
             "button_face": "🌞",
         },
@@ -578,30 +578,21 @@ if __name__ == "__main__":
                     st.write(" ")
                     # Display base64 encoded image with rounded edge without expander
                     gif_image = st.markdown(
-                        f'<BR><BR><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div>',
+                        f'<div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div>',
                         unsafe_allow_html=True,
                     )
             except Exception as error:
                 st.write(error)
 
             col1, col2 = st.columns([11.5, 1])
-
             with col1:
                 st.markdown("<H1>RecipeML v1.2</H1>", unsafe_allow_html=True)
-
             with col2:
                 st.markdown("<br>", unsafe_allow_html=True)
-                btn_face = (
-                    st.session_state.themes["light"]["button_face"]
-                    if st.session_state.themes["current_theme"] == "light"
-                    else st.session_state.themes["dark"]["button_face"]
-                )
-
                 st.button(
-                    btn_face,
+                    "H",
                     use_container_width=True,
                     type="secondary",
-                    on_click=change_streamlit_theme,
                 )
 
             st.markdown(
@@ -613,34 +604,10 @@ if __name__ == "__main__":
                 unsafe_allow_html=True,
             )
 
-            st.markdown(
-                """
-                <style>
-                a.custom-link {
-                color: white; /* Initial link color */
-                text-decoration: none; /* Remove underline */
-                transition: color 0.2s ease-in-out; /* Smooth color transition */
-                }
-
-                a.custom-link:hover {
-                color: #64ABD8; /* Hover link color */
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-
             inline_display_col1, inline_display_col2 = st.columns([2.5, 1])
-
             with inline_display_col1:
                 st.markdown(
                     "<B>Subscribe to receive our newsletter, directly into your inbox</B>",
-                    unsafe_allow_html=True,
-                )
-
-            with inline_display_col2:
-                st.markdown(
-                    "<P align='right'><B><A href='https://docs.google.com/document/d/1rbPR3oXLPjFTAhK8PShiY6DWtQPNfwL7wkAwSZg-1k8/edit?usp=sharing' class='custom-link'>Terms of Use →</A></B></P>",
                     unsafe_allow_html=True,
                 )
 
@@ -680,13 +647,8 @@ if __name__ == "__main__":
 
             try:
                 if authentication_status is not True:
-                    st.write(" ")
-                    st.markdown(
-                        f"<BR>",
-                        unsafe_allow_html=True,
-                    )
-                    
                     signup_form()
+
                     reset_password_form()
 
                     st.markdown(
@@ -823,17 +785,12 @@ if __name__ == "__main__":
                 on_click=set_generate_recommendations_cache_to_true,
                 use_container_width=True,
             )
-            
-            st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-            logout_button()
 
             # Check if ingredients are selected, and recommendation button is clicked
             if (
                 generate_recommendations_button
                 or st.session_state.cache_generate_recommendations
             ) and len(input_ingredients) > 0:
-                st.write(" ")
-
                 # Display preloader, as the application performs time-intensive tasks
                 gif_image = st.markdown(
                     f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
@@ -2376,16 +2333,12 @@ if __name__ == "__main__":
                     placeholder="Pick from over 10,000+ ingredients",
                 )
 
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
-
                 if input_selected_ingredients:
                     # Display the preloader, as the web app performs time intensive tasks
                     gif_image = st.markdown(
                         f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
                         unsafe_allow_html=True,
                     )
-
                     try:
                         with gif_image:
                             st.toast(
@@ -2460,7 +2413,7 @@ if __name__ == "__main__":
                 else:
                     flag_display_result = False
 
-            # Check if the recipe generations selectbox is to generate recipe by name
+            # Check if the recipe generations selectbox is set to Generate by Recipe Name
             elif recipe_generation_type == "Generate by Name":
                 # Display sidebar with text input for the user to enter a recipe name
                 input_recipe_name = st.sidebar.text_input(
@@ -2468,13 +2421,8 @@ if __name__ == "__main__":
                     placeholder="Be playful, descriptive, or even a little poetic",
                 )
 
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
-
                 # Check if some recipe name is provided by the user, initialized on enter
                 if input_recipe_name:
-                    st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-
                     gif_image = st.markdown(
                         f'<br><br><br><br><div class="rounded-image"><img src="data:image/png;base64,{encoded_image}"></div><br><br><br><br><br><br><br><br><br><br><br>',
                         unsafe_allow_html=True,
@@ -2483,7 +2431,6 @@ if __name__ == "__main__":
                         # Display the preloader, as the app performs time intensive tasks
                         with gif_image:
                             st.toast("Cooking up some tasty ideas")
-
                             # Attempt to generate a recipe using ProceduralTextGeneration
                             procedural_text_generation = ProceduralTextGeneration(
                                 stochasticity=0.7,
@@ -2509,7 +2456,8 @@ if __name__ == "__main__":
                         try:
                             gif_image.empty()
 
-                        except Exception as error: pass
+                        except:
+                            pass
 
                         try:
                             if st.session_state.themes["current_theme"] == "dark":
