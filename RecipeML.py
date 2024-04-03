@@ -2319,13 +2319,14 @@ if __name__ == "__main__":
                 recipe_generation_type = st.selectbox(
                     "Select Generation Technique",
                     ("Generate by Name", "Generate by Ingredients"),
+                    label_visibility="collapsed",
                 )
 
             with colb:
                 selected_language = st.selectbox(
-                    " ",
+                    "Select Language",
                     ["en", "hi", "ml", "ta", "fr", "ru", "de", "ja", "ko"],
-                    help="Select language",
+                    label_visibility="collapsed"
                 )
 
             # Check if the recipe generation's selectbox is set to Generate by Ingredient
@@ -2934,9 +2935,8 @@ if __name__ == "__main__":
                     usage_instruction
                 )  # Display the usage information, to the users
 
-                st.sidebar.write(" ")
-                st.sidebar.write(" ")
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
                 logout_button()
 
         else:
