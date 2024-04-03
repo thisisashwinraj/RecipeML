@@ -2344,9 +2344,6 @@ if __name__ == "__main__":
                     placeholder="Pick from over 10,000+ ingredients",
                 )
 
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
-
                 if input_selected_ingredients:
                     # Display the preloader, as the web app performs time intensive tasks
                     gif_image = st.markdown(
@@ -2435,10 +2432,7 @@ if __name__ == "__main__":
                     "Enter Recipe Name:",
                     placeholder="Be playful, descriptive, or even a little poetic",
                 )
-
-                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-                logout_button()
-
+                
                 # Check if some recipe name is provided by the user, initialized on enter
                 if input_recipe_name:
                     st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
@@ -2939,6 +2933,9 @@ if __name__ == "__main__":
                 st.info(
                     usage_instruction
                 )  # Display the usage information, to the users
+
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                logout_button()
 
         else:
             sac.result(
