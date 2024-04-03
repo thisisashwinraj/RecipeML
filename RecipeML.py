@@ -2800,7 +2800,7 @@ if __name__ == "__main__":
 
                 st.markdown("<BR><BR>", unsafe_allow_html=True)
 
-                st.sidebar.markdown(" ", unsafe_allow_html=True)
+                st.sidebar.markdown("<BR>", unsafe_allow_html=True)
                 st.sidebar.audio(audio_path, format="audio/wav")
 
                 try:
