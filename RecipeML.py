@@ -2935,6 +2935,7 @@ if __name__ == "__main__":
                 )  # Display the usage information, to the users
 
                 st.sidebar.write(" ")
+                st.sidebar.write(" ")
                 st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
                 logout_button()
 
