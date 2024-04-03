@@ -2433,7 +2433,7 @@ if __name__ == "__main__":
                     "Enter Recipe Name:",
                     placeholder="Be playful, descriptive, or even a little poetic",
                 )
-                
+
                 # Check if some recipe name is provided by the user, initialized on enter
                 if input_recipe_name:
                     st.sidebar.markdown("<BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
@@ -2800,7 +2800,7 @@ if __name__ == "__main__":
 
                 st.markdown("<BR><BR>", unsafe_allow_html=True)
 
-                st.sidebar.markdown("<BR><BR><BR><BR>", unsafe_allow_html=True)
+                st.sidebar.markdown("<BR><BR>", unsafe_allow_html=True)
                 st.sidebar.audio(audio_path, format="audio/wav")
 
                 try:
