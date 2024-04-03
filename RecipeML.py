@@ -791,9 +791,6 @@ if __name__ == "__main__":
                 on_click=set_generate_recommendations_cache_to_true,
                 use_container_width=True,
             )
-            
-            st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
-            logout_button()
 
             # Check if ingredients are selected, and recommendation button is clicked
             if (
@@ -2267,6 +2264,9 @@ if __name__ == "__main__":
                 st.info(
                     usage_instruction
                 )  # Display the usage information, to the users
+
+                st.sidebar.markdown("<BR><BR><BR><BR><BR><BR><BR><BR>", unsafe_allow_html=True)
+                logout_button()
 
         elif selected_menu_item == "Recipe Generation":
             try:
