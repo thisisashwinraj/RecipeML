@@ -613,44 +613,13 @@ if __name__ == "__main__":
                 unsafe_allow_html=True,
             )
 
-            st.markdown(
-                """
-                <style>
-                a.custom-link {
-                color: white; /* Initial link color */
-                text-decoration: none; /* Remove underline */
-                transition: color 0.2s ease-in-out; /* Smooth color transition */
-                }
-
-                a.custom-link:hover {
-                color: #64ABD8; /* Hover link color */
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            #inline_display_col1, inline_display_col2 = st.columns([2.5, 1])
-
-            #with inline_display_col1:
-            #    st.markdown(
-            #        "<B>Subscribe to receive our newsletter, directly into your inbox</B>",
-            #        unsafe_allow_html=True,
-            #    )
-
-            #with inline_display_col2:
-            #    st.markdown(
-            #        "<P align='right'><B><A href='https://docs.google.com/document/d/1rbPR3oXLPjFTAhK8PShiY6DWtQPNfwL7wkAwSZg-1k8/edit?usp=sharing' class='custom-link'>Terms of Use →</A></B></P>",
-            #        unsafe_allow_html=True,
-            #    )
-
             with st.form("form_subscribers"):
                 # st.markdown("Subscribe to receive our newsletter", unsafe_allow_html=True)
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     st.text_input(
                         "",
-                        placeholder="Enter your email id",
+                        placeholder="Enter your email id to receive latest updates",
                         label_visibility="collapsed",
                     )
                 with col2:
